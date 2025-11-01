@@ -2,7 +2,12 @@
 
 **A comprehensive automation toolkit for Claude Code** - 31 slash commands, 8 auto hooks, 3 sub agents, and intelligent quality gates.
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/claude-code-tools/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-8A2BE2.svg)](https://docs.claude.com/en/docs/claude-code)
+[![Platform](https://img.shields.io/badge/Platform-Windows_Git_Bash-blue.svg)](https://git-scm.com/download/win)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Contributions](https://img.shields.io/badge/Contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
 
