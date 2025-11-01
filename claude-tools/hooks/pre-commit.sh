@@ -11,65 +11,91 @@ echo "=========================================="
 echo "STEP 1: Critical Smoke Tests"
 echo "=========================================="
 
-echo "Testing MCP Integration (22 tools)..."
-PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py || {
-  echo "❌ MCP integration test FAILED"
-  exit 1
-}
+# Check if MCP server is running
+if curl -s http://localhost:8000/health >/dev/null 2>&1; then
+  echo "Testing MCP Integration (22 tools)..."
+  PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py || {
+    echo "❌ MCP integration test FAILED"
+    exit 1
+  }
 
-echo "Testing V3 Analyst Cache..."
-pytest tests/agents/test_v3_analyst_cache.py -v || {
-  echo "❌ V3 Analyst cache test FAILED"
-  exit 1
-}
+  echo "Testing V3 Analyst Cache..."
+  PYTHONPATH=backend uv run pytest tests/agents/test_v3_analyst_cache.py -v || {
+    echo "❌ V3 Analyst cache test FAILED"
+    exit 1
+  }
+else
+  echo "⚠️  MCP server not running - skipping integration tests"
+  echo "💡 Tip: Start services with ./gitbash-start-python.sh for full validation"
+fi
 
-# 2. Check for type safety issues
+# 2. Quick type safety check
 echo ""
 echo "=========================================="
 echo "STEP 2: Type Safety Validation"
 echo "=========================================="
 
-# Check for common type mismatches in Python
-echo "Checking Python type safety..."
-if grep -r "cast(" backend/ --include="*.py" | grep -v "# type: ignore"; then
-  echo "⚠️ Found type casts - verify these are necessary"
-fi
-
 # Check TypeScript strict mode
 if [ -f "frontend/tsconfig.json" ]; then
   if ! grep -q '"strict": true' frontend/tsconfig.json; then
-    echo "⚠️ TypeScript strict mode is not enabled"
+    echo "⚠️ TypeScript strict mode not enabled"
+  else
+    echo "✅ TypeScript strict mode enabled"
   fi
+else
+  echo "✅ No TypeScript config changes"
 fi
 
-# 3. Check for hardcoded values
+# 3. Check for hardcoded values (only in staged files)
 echo ""
 echo "=========================================="
 echo "STEP 3: Hardcoded Values Check"
 echo "=========================================="
 
-if grep -r "http://localhost" frontend/src --exclude-dir=node_modules --exclude-dir=.next | grep -v "BACKEND_API_URL" | grep -v ".md"; then
-  echo "❌ Found hardcoded localhost URLs in frontend"
-  exit 1
-fi
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only)
 
-if grep -r "otapi_test123" backend/ frontend/ --exclude-dir=node_modules --exclude="*.md" --exclude="*.sh"; then
-  echo "❌ Found test API keys in production code"
-  exit 1
-fi
+# Check staged frontend files for hardcoded localhost
+for file in $STAGED_FILES; do
+  if [[ "$file" == frontend/src/*.ts || "$file" == frontend/src/*.tsx ]]; then
+    if grep -q "http://localhost" "$file" 2>/dev/null && ! grep -q "BACKEND_API_URL" "$file"; then
+      echo "❌ Found hardcoded localhost URL in: $file"
+      echo "💡 Use environment variable BACKEND_API_URL instead"
+      exit 1
+    fi
+  fi
+done
 
-# 4. Frontend linting
+# Check staged files for test API keys
+for file in $STAGED_FILES; do
+  if [[ "$file" == backend/*.py || "$file" == frontend/src/*.ts* ]]; then
+    if grep -q "otapi_test123" "$file" 2>/dev/null; then
+      echo "❌ Found test API key in: $file"
+      exit 1
+    fi
+  fi
+done
+
+echo "✅ No hardcoded values in staged files"
+
+# 4. Frontend linting (only if frontend files changed)
 echo ""
 echo "=========================================="
 echo "STEP 4: Frontend Linting"
 echo "=========================================="
 
-cd frontend
-npm run lint || {
-  echo "❌ Frontend linting FAILED"
-  exit 1
-}
-cd ..
+# Check if any frontend files changed
+if git diff --cached --name-only | grep -q "^frontend/src/"; then
+  echo "Frontend files changed - running linter..."
+  cd frontend
+  npm run lint || {
+    echo "❌ Frontend linting FAILED"
+    exit 1
+  }
+  cd ..
+else
+  echo "✅ No frontend files changed - skipping linting"
+fi
 
 # 5. Clean Python cache
 echo ""

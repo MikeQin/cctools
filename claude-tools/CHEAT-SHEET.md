@@ -33,6 +33,8 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 | `/restart-backend` | After code changes | 15s |
 | `/pre-change` | Before editing existing code | Instant |
 | `/debug-checklist` | After 3+ service restarts | Instant |
+| `/document` | Document changes (auto-detects type) | Instant |
+| `/check-doc-needed` | Check if docs needed | 5s |
 
 ---
 
@@ -62,6 +64,15 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 ### Debugging
 ```
 /debug-checklist → /verify-environment
+```
+
+### Documentation
+```
+# After major changes
+/check-doc-needed → /document
+
+# Or just auto-document
+/document  # Auto-detects: architecture vs session notes
 ```
 
 ---

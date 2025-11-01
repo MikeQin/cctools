@@ -36,6 +36,8 @@
 | `/changelog-update` | Add CHANGELOG entry |
 | `/restart-backend` | Fast backend restart |
 | `/commit-session` | Create commit with co-author |
+| `/document` | 📚 Intelligent documentation (auto-detects type & location) |
+| `/check-doc-needed` | Analyze if documentation is needed |
 
 ---
 
@@ -67,31 +69,29 @@ For complex multi-file tasks:
 - **refactor-agent** - Safe large-scale refactoring (auto-suggested when using Glob/Edit for multi-file operations)
 - **type-validator-agent** - Type safety validation (auto-suggested when using Grep for type searches)
 - **test-gen-agent** - Test suite generation
+- **doc-agent** - 📚 Intelligent documentation with When/What/Where/How decision trees (use via `/document` command)
 
 **How it works**: Hooks automatically suggest appropriate sub agents when Claude detects complex tasks
 
-**Manual usage**: Ask Claude Code to use Task tool with appropriate subagent_type
+**Manual usage**: Ask Claude Code to use Task tool with appropriate subagent_type, or use `/document` for documentation
 
 ---
 
 ## 📁 What's Available
 
-**Phase 1: Core Tools**
-- ✅ 25 Slash Commands (22 standard + 3 project-specific)
-- ✅ 4 Quality Gate Hooks
+**Commands & Automation:**
+- ✅ **33 Slash Commands** (including /document, /check-doc-needed for intelligent documentation)
+- ✅ **4 Specialized Sub Agents** (refactor, test-gen, type-validator, doc-agent)
+- ✅ **5 Automation Hooks** (session-start, pre-edit, post-edit, pre-commit, security-check)
+- ✅ **Status Line** (always-visible component health monitoring)
+- ✅ **Git Native Pre-Commit Hook** (100% automatic quality enforcement)
 
-**Phase 2: Optional Enhancements**
-- ✅ 3 Sub Agents
-
-**Phase 3: Testing & Documentation**
-- ✅ Usage Examples Document
+**Documentation:**
+- ✅ Intelligent Documentation System (When/What/Where/How)
+- ✅ Usage Examples & Practical Scenarios
 - ✅ Cheat Sheet Quick Reference
-- ✅ Hook Validation (syntax tested)
-
-**Phase 4: Maximum Automation**
-- ✅ Status Line (always-visible component health)
-- ✅ 6 Advanced Commands (logs, ports, env-check, model-check, version-bump, changelog-update)
-- ✅ Total: 31 Commands
+- ✅ Automation Guide
+- ✅ Anti-Patterns & Lessons Learned
 
 ---
 
