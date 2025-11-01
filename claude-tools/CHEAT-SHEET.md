@@ -2,16 +2,13 @@
 
 **One-page reference for daily use** | [Full Docs](../docs/CLAUDE-CODE-TOOLS-USAGE.md)
 
-> **Note**: Commands shown are from the original project. Customize slash commands in `.claude/commands/` to match your project needs.
-
-
 ---
 
 ## 📊 Status Line (Always Visible)
 
-Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`)
-- See `status-line-examples.sh` for 6 ready-to-use templates
-- Adapt to show your components, services, or metrics
+Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
+- ✅ = Component running
+- ❌ = Component down
 
 ---
 
@@ -32,7 +29,7 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 | `/test-critical` | Before commit | 3min |
 | `/restart-backend` | After code changes | 15s |
 | `/pre-change` | Before editing existing code | Instant |
-| `/debug-checklist` | After 3+ service restarts | Instant |
+| `/debug-checklist` | After 3+ backend restarts | Instant |
 | `/document` | Document changes (auto-detects type) | Instant |
 | `/check-doc-needed` | Check if docs needed | 5s |
 
@@ -77,19 +74,20 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 
 ---
 
-## 🤖 Claude Code Auto Hooks (Trigger Automatically)
+## 🤖 Claude Code Auto Hooks (Balanced Automation)
 
-**You don't invoke these - they run automatically within Claude Code!**
+**Active hooks run automatically to help Claude remember lessons learned:**
 
-| Hook | When | What |
-|------|------|------|
-| Session Start | Claude Code launches | Protocol reminder |
-| Pre-Edit | Before editing files | Type check + refactor-agent suggestion |
-| **Post-Edit** ⚡ | **After editing files** | **Auto-runs syntax/type validation** |
-| Pre-Bash | Before bash commands | Debug loop prevention + commit/deploy reminders |
-| Pre-Glob | Before file search | Refactor-agent suggestion |
-| Pre-Grep | Before code search | Type-validator-agent suggestion |
-| Status Line | Always visible | Project status |
+| Hook | Status | When | What |
+|------|--------|------|------|
+| Session Start | ✅ ACTIVE | Claude Code launches | Reads concise LESSONS-LEARNED.md (~400 tokens) |
+| Pre-Edit | ✅ ACTIVE | Before editing files | Reminds: check types, test first (~100 tokens) |
+| **Post-Edit** | ✅ ACTIVE | **After editing files** | **Auto-runs syntax/type validation** |
+| Pre-Bash | ❌ Disabled | Before bash commands | Debug loop prevention (can enable) |
+| Pre-Grep/Glob | ❌ Disabled | Before searches | Sub-agent suggestions (can enable) |
+| Status Line | ✅ ACTIVE | Always visible | Component health |
+
+**Token savings**: 70-75% vs original (concise LESSONS-LEARNED.md enables affordable automation)
 
 ---
 
@@ -105,7 +103,7 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 
 **What it does**:
 - ✅ Runs `./.claude/hooks/pre-commit.sh` automatically
-- ✅ Runs your project-specific tests (customize in pre-commit.sh)
+- ✅ Tests MCP integration, V3 cache, type safety, hardcoded values, linting
 - ✅ **BLOCKS commit** if any test fails
 - ✅ Works with `git commit` command AND Git GUI tools
 - ✅ **Zero configuration needed** - already installed!
@@ -131,7 +129,7 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 
 **Making changes**: `/pre-change` `/check-types-*` `/test-before-change`
 
-**Debugging**: `/debug-checklist` `/verify-environment`
+**Debugging**: `/debug-checklist` `/verify-environment` `/db-status`
 
 **Testing**: `/quick-test` (fast) or `/test-critical` (thorough)
 
@@ -145,10 +143,10 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 
 | Command | Purpose |
 |---------|---------|
-| `/logs` | View recent logs |
+| `/logs` | View recent logs (MCP/Backend) |
 | `/ports` | Check port usage |
 | `/env-check` | Validate environment variables |
-| `/model-check` | Verify AI models (if using) |
+| `/model-check` | Verify Ollama models |
 | `/version-bump` | Increment version |
 | `/changelog-update` | Update CHANGELOG.md |
 
@@ -160,7 +158,7 @@ Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`
 
 **Env issues**: `/env-check` → Fix missing variables
 
-**Model errors**: `/model-check` → Verify model availability
+**Model errors**: `/model-check` → Verify Ollama
 
 **Type errors**: `/check-types-*` → Use `type-validator-agent`
 

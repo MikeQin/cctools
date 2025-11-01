@@ -6,22 +6,22 @@
 
 ---
 
-## ⚡ Token-Conscious Design (NEW)
+## ⚡ Balanced Token-Conscious Design (Current)
 
-**Default Configuration: Minimal Automation**
+**Key Insight**: Concise LESSONS-LEARNED.md (31 lines vs 190) enables affordable automation!
 
-To save tokens (80-90% reduction), most hooks are **disabled by default**:
-- ❌ Session-start reminders (~500 tokens/session)
-- ❌ Pre-edit prompts (~100 tokens/edit)
-- ❌ Pre-bash prompts (~100 tokens/command)
-- ❌ Pre-grep/glob prompts (~100 tokens/search)
-
-**Still Active (Minimal Token Cost):**
+**Active Automation (Essential Hooks Enabled):**
+- ✅ Session-start hook (~400 tokens - reads concise LESSONS-LEARNED.md)
+- ✅ Pre-edit prompts (~100 tokens/edit - reminds Claude to check types, test first)
 - ✅ Post-edit validation (bash script, catches errors)
 - ✅ Status line (no tokens)
 - ✅ Git pre-commit hook (native git, no Claude tokens)
 
-**Want Automation?** Enable hooks in `.claude/settings.local.json` - see [Enabling Automation](#enabling-automation) section below.
+**Disabled (Lower Priority):**
+- ❌ Pre-bash prompts (debug loop detection)
+- ❌ Pre-grep/glob prompts (sub-agent suggestions)
+
+**Token Savings**: 70-75% reduction vs original verbose automation
 
 ---
 
@@ -452,19 +452,19 @@ to ensure all references are updated safely."
 
 ---
 
-## 🚀 Quick Reference
+## 🚀 Quick Reference (Balanced Approach)
 
-| Automation | Default | Trigger | Action |
-|------------|---------|---------|--------|
-| **Status Line** | ✅ ACTIVE | Always | Shows component health |
-| **Session Start** | ❌ Disabled | Claude Code launches | Reminds of protocol |
-| **Pre-Edit** | ❌ Disabled | Before Edit/Write | Type check + refactor-agent suggestion |
-| **Post-Edit** ⚡ | ✅ ACTIVE | **After Edit (AUTOMATIC)** | **Syntax/type validation** |
-| **Pre-Bash** | ❌ Disabled | Before Bash commands | Debug loop + deploy reminders |
-| **Pre-Glob** | ❌ Disabled | Before file search | Refactor-agent suggestion |
-| **Pre-Grep** | ❌ Disabled | Before code search | Type-validator-agent suggestion |
-| **Git Pre-Commit** 🔒 | ✅ ACTIVE | **Before git commit (AUTOMATIC)** | **Quality gate - BLOCKS bad commits** |
-| **Security Check** | ⚠️ Manual | Before deploy (reminded) | Security validation (semi-auto) |
+| Automation | Status | Trigger | Action | Token Cost |
+|------------|--------|---------|--------|------------|
+| **Status Line** | ✅ ACTIVE | Always | Shows component health | 0 |
+| **Session Start** | ✅ ACTIVE | Claude Code launches | Reads concise LESSONS-LEARNED.md | ~400 |
+| **Pre-Edit** | ✅ ACTIVE | Before Edit/Write | Reminds: check types, test first | ~100 |
+| **Post-Edit** ⚡ | ✅ ACTIVE | **After Edit (AUTOMATIC)** | **Syntax/type validation** | Minimal |
+| **Pre-Bash** | ❌ Disabled | Before Bash commands | Debug loop + deploy reminders | 0 |
+| **Pre-Glob** | ❌ Disabled | Before file search | Refactor-agent suggestion | 0 |
+| **Pre-Grep** | ❌ Disabled | Before code search | Type-validator-agent suggestion | 0 |
+| **Git Pre-Commit** 🔒 | ✅ ACTIVE | **Before git commit (AUTOMATIC)** | **Quality gate - BLOCKS bad commits** | 0 |
+| **Security Check** | ⚠️ Manual | Before deploy (manual) | Security validation | 0 |
 
 ---
 

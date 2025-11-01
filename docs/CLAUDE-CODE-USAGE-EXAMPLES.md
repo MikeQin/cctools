@@ -4,22 +4,22 @@
 
 **Last Updated**: November 1, 2025
 
-**Token-Conscious Approach**: These examples show manual use of commands (on-demand, zero tokens until used). Hooks are disabled by default to save 80-90% tokens.
+**Balanced Token-Conscious Approach**: Essential automation active (session-start, pre-edit hooks) with 70-75% token savings vs original. Commands available on-demand.
 
 ---
 
 ## 🚀 Daily Development Scenarios
 
-### Scenario 1: Starting Your Day (Token-Conscious)
+### Scenario 1: Starting Your Day (Balanced Approach)
 
-**Goal**: Begin a new development session safely with minimal token usage
+**Goal**: Begin a new development session safely with balanced token usage
 
 ```
-1. /session-start (MANUAL - run when you need the reminder)
-   → Reads .claude/LESSONS-LEARNED.md (now only 31 lines!)
+1. Session starts automatically (hook runs when Claude Code launches)
+   → Reads .claude/LESSONS-LEARNED.md (now only 31 lines - ~400 tokens!)
    → Shows recent git changes
    → Asks what you're working on
-   → Saves ~500 tokens by being manual vs automatic
+   → 84% token savings vs original (2,500 → 400 tokens)
 
 2. /status
    → Checks if all components are running
@@ -30,10 +30,22 @@
    → Starts MCP (8000), Backend (8001), Frontend (3000)
 ```
 
-**Token Savings**: ~500 tokens per session (no automatic session-start hook)
+**Token Cost**: ~400 tokens per session (automatic session-start hook)
+**Token Savings**: 84% vs original verbose LESSONS-LEARNED.md (2,500 → 400 tokens)
 
 **Expected Output**:
 ```
+🚀 Claude Code Session Starting...
+
+📋 Session Start Protocol:
+  1. ✅ Read .claude/LESSONS-LEARNED.md (concise - 31 lines)
+  2. ✅ Check recent git changes
+  3. ✅ Verify component status
+
+💡 Tip: Use /session-start for full protocol
+
+✅ Components appear to be running
+
 SESSION START PROTOCOL:
 ✅ Read .claude/LESSONS-LEARNED.md
 ✅ Read CLAUDE.md

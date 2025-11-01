@@ -32,45 +32,53 @@
 - CHEAT-SHEET.md - One-page reference
 - README.md - Updated for token-conscious design
 
-### Settings (settings.local.json)
-- PreToolUse hooks: DISABLED (save 100-200 tokens per action)
-- SessionStart hook: DISABLED (save ~500 tokens per session)
-- PostToolUse: ENABLED (post-edit validation only)
+### Settings (settings.local.json) - BALANCED APPROACH
+- SessionStart hook: ENABLED (~400 tokens - reads concise LESSONS-LEARNED.md)
+- PreToolUse hooks: Pre-Edit ENABLED (~100 tokens per edit)
+- PostToolUse: ENABLED (post-edit validation)
+- Disabled: Pre-Bash, Pre-Grep/Glob (lower priority)
 
-## Token Savings
+## Token Savings (Balanced Approach)
 
-### Automatic Savings
-- No session-start hook: ~500 tokens/session saved
-- No pre-edit prompts: ~100 tokens/edit saved
-- No pre-bash prompts: ~100 tokens/command saved
-- No pre-grep/glob prompts: ~100 tokens/search saved
+### Key Insight
+**LESSONS-LEARNED.md reduction (190 → 31 lines) enables affordable automation!**
+
+Before: 2,500 tokens per session-start
+After: 400 tokens per session-start (84% savings!)
+
+### Active Automation Costs
+- Session-start hook: ~400 tokens (reads concise LESSONS-LEARNED.md)
+- Pre-edit prompts: ~100 tokens per edit
+- Pre-bash prompts: DISABLED (save ~100 tokens/command)
+- Pre-grep/glob prompts: DISABLED (save ~100 tokens/search)
 
 ### On-Demand Savings
 - doc-agent simplified: 8000+ → ~500 tokens (94% reduction when used)
-- LESSONS-LEARNED concise: 190 → 31 lines (84% reduction when read)
+- LESSONS-LEARNED concise: 2,500 → 400 tokens (84% reduction when read)
 
 ### Estimated Total Savings
-**Per session**: ~500 tokens (no session-start)
-**Per 10 edits**: ~1,000 tokens (no pre-edit prompts)
-**Per /document use**: ~7,500 tokens (simplified agent)
+**Per session**: 2,500 → 400 tokens (session-start with concise docs)
+**Per 10 edits**: ~1,000 tokens (pre-edit prompts still enabled)
+**Per /document use**: 8,000 → 500 tokens (simplified agent)
 
-**Total savings**: 80-90% reduction in automatic token usage
+**Total savings**: 70-75% reduction vs original (essential automation preserved)
 
-## Trade-offs
+## Balanced Approach (RE-ENABLED)
 
-### Lost Automation
-- No automatic reminders before edits
-- No automatic session start protocol
-- No automatic sub agent suggestions
-
-### Still Active
+### Active Automation
+✅ Session-start hook (reads concise LESSONS-LEARNED.md)
+✅ Pre-edit reminders (check types, test first)
 ✅ Post-edit validation (catches errors)
 ✅ Git pre-commit hook (enforces quality)
 ✅ Status line (visual feedback)
 ✅ All slash commands available
 ✅ All sub agents available on-demand
 
-## User Choice
+### Intentionally Disabled (Lower Priority)
+❌ Pre-bash prompts (debug loop detection)
+❌ Pre-grep/glob prompts (sub agent suggestions)
 
-Users can re-enable hooks in `.claude/settings.local.json` if they prefer automation over token efficiency.
+**Rationale**: Essential automation for Claude + significant token savings.
+
+Users can disable session-start/pre-edit hooks if desired, but the massive LESSONS-LEARNED.md reduction makes them affordable.
 

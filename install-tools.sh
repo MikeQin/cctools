@@ -116,8 +116,27 @@ else
     "command": "./.claude/status-line.sh"
   },
   "hooks": {
-    "SessionStart": [],
-    "PreToolUse": [],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/session-start-auto.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before editing: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary? (See .claude/LESSONS-LEARNED.md)"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit",

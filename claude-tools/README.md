@@ -41,22 +41,25 @@
 
 ---
 
-## 🪝 Validation (Token-Conscious Design)
+## 🪝 Validation (Balanced Token-Conscious Design)
 
-**Active Automation (Minimal Tokens):**
+**Active Automation (Essential Hooks Enabled):**
 
-- ⚡ **Post-Edit Validation** - Runs after file edits (syntax/type checking via bash script)
+- ✅ **Session Start Hook** - Runs when Claude Code launches (reads concise LESSONS-LEARNED.md ~400 tokens)
+- ✅ **Pre-Edit Hook** - Reminds before editing files (~100 tokens per edit)
+- ✅ **Post-Edit Validation** - Runs after file edits (syntax/type checking via bash script)
 - 🔒 **Git Native Pre-Commit Hook** - Quality checks before commits (native git hook, no Claude tokens)
   - Installed at `.git/hooks/pre-commit`
   - **BLOCKS commits** if tests fail
   - Works with `git commit` command AND Git GUI tools
 
-**Optional Hooks (Disabled by Default):**
+**Disabled Hooks (Lower Priority):**
 
-- Session-start reminders (can enable in settings.local.json)
-- Pre-tool prompts (Edit/Bash/Grep/Glob) (can enable in settings.local.json)
+- Pre-Bash prompts (debug loop detection)
+- Pre-Grep/Glob prompts (sub-agent suggestions)
 
-**Why disabled?** Token savings! Hooks add 100-200 tokens per action. You can enable them in `.claude/settings.local.json` if you prefer automation over token efficiency.
+**Why this works**: Massive reduction in LESSONS-LEARNED.md (190 → 31 lines) makes essential hooks affordable.
+**Token savings**: 70-75% reduction vs full verbose automation.
 
 ---
 
@@ -74,18 +77,20 @@ Available for complex multi-file tasks (zero tokens until you invoke them):
 
 ## 📁 What's Available
 
-**Commands & Automation (Token-Conscious):**
+**Commands & Automation (Balanced Token-Conscious):**
 - ✅ **33 Slash Commands** (on-demand, zero tokens until used)
 - ✅ **4 Specialized Sub Agents** (on-demand, zero tokens until used)
-- ✅ **2 Active Hooks** (post-edit validation, status line - minimal tokens)
-- ✅ **3 Optional Hooks** (session-start, pre-tool prompts - disabled by default for token savings)
+- ✅ **4 Active Hooks** (session-start ~400 tokens, pre-edit ~100 tokens, post-edit validation, status line)
+- ✅ **2 Disabled Hooks** (pre-bash, pre-grep/glob - can enable if needed)
 - ✅ **Git Native Pre-Commit Hook** (native git, no Claude tokens)
 
 **Documentation:**
-- ✅ Concise LESSONS-LEARNED.md (31 lines, ~300 tokens)
+- ✅ Concise LESSONS-LEARNED.md (31 lines, ~400 tokens - down from 2,500!)
 - ✅ Simplified doc-agent (~500 tokens vs 8000+)
 - ✅ Cheat Sheet Quick Reference
 - ✅ Usage Examples & Practical Scenarios
+
+**Token Savings**: 70-75% reduction vs original (essential automation preserved)
 
 ---
 

@@ -1,6 +1,6 @@
 # Claude Code Tools
 
-**A comprehensive automation toolkit for Claude Code** - 31 slash commands, 8 auto hooks, 3 sub agents, and intelligent quality gates.
+**A comprehensive automation toolkit for Claude Code** - 33 slash commands, 5 hooks (4 active), 4 sub agents, and intelligent quality gates with 70-75% token savings.
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/claude-code-tools/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -15,13 +15,13 @@
 
 **Claude Code Tools** is a production-ready toolkit that provides:
 
-- **31 Slash Commands** - Essential development workflows (session start, type checking, debugging, testing, deployment)
-- **8 Auto Hooks** - Intelligent automation that triggers at the right moments
-- **3 Sub Agents** - Specialized agents for complex multi-file tasks
+- **33 Slash Commands** - Essential development workflows (session start, type checking, debugging, testing, deployment, documentation)
+- **5 Hooks (4 active)** - Balanced automation with 70-75% token savings vs original
+- **4 Sub Agents** - Specialized agents for complex multi-file tasks (including simplified doc-agent)
 - **Quality Gates** - Prevent broken commits, type mismatches, and inefficient debugging
 - **Git Native Pre-Commit Hook** - Automatically enforces quality before EVERY commit
 
-**You don't need to remember anything** - automation handles best practices for you!
+**Balanced token-conscious design** - essential automation enabled with massive token savings!
 
 ---
 
@@ -60,22 +60,26 @@ The installer will:
 
 ## 🤖 What You Get
 
-### 1. Fully Automatic Hooks (8 total) ⚡
+### 1. Balanced Automation (5 Hooks, 4 Active) ⚡
 
-**These run automatically - you never invoke them manually!**
+**Active hooks run automatically with 70-75% token savings:**
 
-| Hook | When | What |
-|------|------|------|
-| **Status Line** | Always visible | Real-time component health display |
-| **SessionStart** | Claude Code launches | Reminds of session protocol |
-| **PreToolUse:Edit** | Before editing files | Type check + refactor-agent suggestion |
-| **PostToolUse:Edit** | After editing files | Auto syntax/type validation |
-| **PreToolUse:Bash** | Before bash commands | Debug loop prevention + commit/deploy reminders |
-| **PreToolUse:Glob** | Before file search | Refactor-agent suggestion |
-| **PreToolUse:Grep** | Before code search | Type-validator-agent suggestion |
-| **Git Pre-Commit** 🔒 | Before EVERY git commit | Quality gate - BLOCKS bad commits |
+| Hook | Status | When | What | Token Cost |
+|------|--------|------|------|------------|
+| **Status Line** | ✅ ACTIVE | Always visible | Real-time component health | 0 |
+| **SessionStart** | ✅ ACTIVE | Claude Code launches | Reads concise LESSONS-LEARNED.md | ~400 |
+| **PreToolUse:Edit** | ✅ ACTIVE | Before editing files | Reminds: check types, test first | ~100 |
+| **PostToolUse:Edit** | ✅ ACTIVE | After editing files | Auto syntax/type validation | Minimal |
+| **Git Pre-Commit** 🔒 | ✅ ACTIVE | Before git commit | Quality gate - BLOCKS bad commits | 0 |
 
-### 2. Slash Commands (31 total)
+**Optional hooks** (disabled by default, can enable):
+- **PreToolUse:Bash** - Debug loop prevention + deploy reminders
+- **PreToolUse:Glob** - Refactor-agent suggestion
+- **PreToolUse:Grep** - Type-validator-agent suggestion
+
+**Key Insight**: Concise LESSONS-LEARNED.md (31 lines vs 190) makes essential automation affordable!
+
+### 2. Slash Commands (33 total)
 
 **Essential commands organized by category:**
 
@@ -110,12 +114,17 @@ The installer will:
 - `/version-bump` - Increment version
 - `/changelog-update` - Update CHANGELOG.md
 
-**+ 13 more project-specific commands**
+#### Documentation
+- `/document` - 📚 Intelligent documentation (auto-detects type & location)
+- `/check-doc-needed` - Analyze if documentation is needed
 
-### 3. Sub Agents (3 specialized agents)
+**+ 11 more project-specific commands**
 
-**Auto-suggested by hooks when appropriate:**
+### 3. Sub Agents (4 specialized agents)
 
+**Available on-demand (zero tokens until used):**
+
+- **doc-agent** - 📚 NEW - Intelligent documentation (auto-detects type & location, ~500 tokens vs 8000+)
 - **refactor-agent** - Safe large-scale refactoring across multiple files
 - **type-validator-agent** - Comprehensive type safety validation (backend ↔ frontend)
 - **test-gen-agent** - Test suite generation
@@ -353,19 +362,39 @@ Built with insights from real-world development challenges:
 ## ⚡ Quick Links
 
 - [Installation](#installation) - Get started in 2 minutes
-- [Auto Hooks](#1-fully-automatic-hooks-8-total-) - See what runs automatically
-- [Slash Commands](#2-slash-commands-31-total) - Browse all commands
+- [Auto Hooks](#1-balanced-automation-5-hooks-4-active-) - See what runs automatically
+- [Slash Commands](#2-slash-commands-33-total) - Browse all commands
 - [Anti-Patterns Prevented](#-anti-patterns-prevented) - See what this prevents
 
 ---
 
-## 💰 Token Economics: Investment vs. Savings
+## 💰 Token Economics: Balanced Approach
 
-**Question**: "Does cctools use more tokens upfront?"
+**Question**: "How much do cctools hooks cost?"
 
-**Answer**: YES - but you save far more in the long run!
+**Answer**: ~500 tokens per session with MASSIVE long-term savings!
 
-### Token Cost Analysis
+### Token Cost Analysis (Balanced Approach)
+
+**Upfront Investment** (per session):
+```
+Session start hook             →   400 tokens (reads concise LESSONS-LEARNED.md)
+Pre-edit hook (per 10 edits)  → 1,000 tokens (reminds to check types, test first)
+Post-edit validation          →   minimal (bash script)
+────────────────────────────────────────────
+Total upfront: ~1,400 tokens for 10-edit session
+```
+
+**Compared to Original cctools**:
+```
+OLD session start hook         → 2,500 tokens (verbose LESSONS-LEARNED.md)
+OLD pre-edit hooks (10 edits)  → 1,000 tokens
+────────────────────────────────────────────
+OLD Total: ~3,500 tokens
+
+NEW Total: ~1,400 tokens
+Savings: 70-75% vs original verbose automation
+```
 
 **WITHOUT cctools** (typical debugging cycle):
 ```
@@ -380,19 +409,20 @@ Built with insights from real-world development challenges:
 Total: ~17,000 tokens + hours of debugging
 ```
 
-**WITH cctools** (automated best practices):
+**WITH cctools** (balanced automation):
 ```
 1. Implement feature           → 2,000 tokens
-2. Pre-edit hook enforces      →   500 tokens
-   testing first (automatic)
-3. Done right first time       →     0 tokens
-4. Post-edit validation        →   500 tokens
-   (automatic)
+2. Session start hook          →   400 tokens (reads concise docs)
+3. Pre-edit hooks (10 edits)   → 1,000 tokens (prevents mistakes)
+4. Post-edit validation        →   minimal (catches errors)
+5. Done right first time       →     0 tokens (no debugging needed!)
 ────────────────────────────────────────────
-Total: ~3,000 tokens + done in minutes
+Total: ~3,400 tokens + done in minutes
 ```
 
-### Savings: 82% fewer tokens + 80% less time!
+### Savings: 80% fewer tokens + 80% less time!
+
+**Key Insight**: Concise LESSONS-LEARNED.md (190 → 31 lines, ~2,500 → ~400 tokens) makes automation affordable!
 
 **Why the savings?**
 - ✅ **Mistakes prevented** → No debugging conversations

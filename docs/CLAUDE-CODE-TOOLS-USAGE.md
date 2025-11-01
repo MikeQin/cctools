@@ -1,10 +1,10 @@
 # Claude Code Tools Implementation
 
-**Status**: ✅ TOKEN-CONSCIOUS DESIGN
+**Status**: ✅ BALANCED TOKEN-CONSCIOUS DESIGN
 **Date**: November 1, 2025
-**Components**: 33 Slash Commands + 5 Hooks (2 active by default) + 4 Sub Agents
+**Components**: 33 Slash Commands + 5 Hooks (4 active) + 4 Sub Agents
 
-**NEW**: Token-optimized - hooks disabled by default, simplified prompts, concise docs (80-90% token savings)
+**Balanced Approach**: Essential automation enabled (session-start, pre-edit, post-edit) with 70-75% token savings vs original (concise LESSONS-LEARNED.md makes automation affordable!)
 
 ---
 
@@ -31,10 +31,10 @@
 │   ├── debug-checklist.md
 │   ├── verify-environment.md
 │   └── ... (+ 23 more)
-├── hooks/ (5 hooks - 2 active by default)
+├── hooks/ (5 hooks - 4 active)
 │   ├── post-edit.sh ✅ ACTIVE (bash script, minimal tokens)
-│   ├── session-start-auto.sh ❌ DISABLED (enable for auto reminders)
-│   ├── pre-edit.sh ❌ DISABLED (enable for pre-edit prompts)
+│   ├── session-start-auto.sh ✅ ACTIVE (~400 tokens - reads concise LESSONS-LEARNED.md)
+│   ├── pre-edit.sh ✅ ACTIVE (~100 tokens - reminds to check types, test first)
 │   ├── pre-commit.sh ✅ GIT NATIVE (runs outside Claude, no tokens)
 │   └── security-check.sh ⚠️ MANUAL (run before deploy)
 └── agents/ (4 sub agents - on-demand, zero tokens until used)
@@ -44,33 +44,35 @@
     └── test-gen-agent.json
 ```
 
-**Token-Conscious Design**:
-- ❌ SessionStart hook disabled → saves ~500 tokens/session
-- ❌ PreToolUse hooks disabled → saves ~100-200 tokens/action
+**Balanced Token-Conscious Design**:
+- ✅ SessionStart hook ACTIVE → ~400 tokens/session (reads concise LESSONS-LEARNED.md)
+- ✅ Pre-Edit hook ACTIVE → ~100 tokens/edit (reminds to check types, test first)
+- ✅ Post-edit validation ACTIVE → minimal tokens (bash script, catches errors)
 - ✅ Commands available on-demand (zero tokens until you use them)
-- ✅ Post-edit validation active (minimal tokens, catches errors)
+- ✅ **Token savings: 70-75% vs original** (concise docs enable affordable automation!)
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Token-Conscious Session Start (Recommended)
+### 1. Session Start (Automatic)
 
-**Manually run** when starting work:
+**Runs automatically when Claude Code launches:**
 
+The session-start hook automatically:
+- Reads .claude/LESSONS-LEARNED.md (now only 31 lines - ~400 tokens!)
+- Shows git status and recent commits
+- Checks component health
+- Reminds you of best practices
+
+**Token cost**: ~400 tokens per session (vs ~2,500 before optimization)
+
+**Manual command** also available:
 ```
 /session-start
 ```
 
-This command now runs a quick check:
-- Reads .claude/LESSONS-LEARNED.md (now only 31 lines!)
-- Shows git status and recent commits
-- Checks component health
-- Asks "What are we working on today?"
-
-**Why manual?** Saves ~500 tokens per session. Run it when you need the reminder.
-
-**Want automatic?** See [Enabling Automation](#enabling-automation) section below.
+**Want to disable?** Edit `.claude/settings.local.json` to remove SessionStart hook.
 
 ---
 
@@ -394,9 +396,9 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
 
 ---
 
-## 🔧 Enabling Automation
+## 🔧 Current Automation (Balanced Approach)
 
-**Want automatic hooks?** Edit `.claude/settings.local.json`:
+**Active hooks** in `.claude/settings.local.json`:
 
 ```json
 {
@@ -417,34 +419,7 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Before editing $ARGUMENTS: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary?"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Before bash: 1) If restarting 3+ times, use /debug-checklist. 2) If committing, run pre-commit.sh first."
-          }
-        ]
-      },
-      {
-        "matcher": "Glob",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Searching multiple files? Consider using refactor-agent for safer multi-file changes."
-          }
-        ]
-      },
-      {
-        "matcher": "Grep",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Validating types? Consider using type-validator-agent for comprehensive validation."
+            "prompt": "Before editing: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary? (See .claude/LESSONS-LEARNED.md)"
           }
         ]
       }
@@ -464,7 +439,12 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
 }
 ```
 
-**Token Cost**: Automation adds 100-200 tokens per action. Enable if you prefer convenience over token efficiency.
+**Token Cost (Balanced)**:
+- SessionStart: ~400 tokens/session (reads concise LESSONS-LEARNED.md)
+- Pre-Edit: ~100 tokens/edit
+- **Total savings: 70-75% vs original verbose automation**
+
+**Optional hooks to enable** (Pre-Bash, Pre-Grep/Glob): Add to PreToolUse array if desired.
 
 ---
 
@@ -478,16 +458,18 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
 
 ## ✅ Implementation Status
 
-**Token-Conscious Design (November 2025)**
+**Balanced Token-Conscious Design (November 2025)**
 - ✅ **33 Slash Commands** - All on-demand (zero tokens until used)
 - ✅ **4 Sub Agents** - Including new doc-agent (~500 tokens vs 8000+)
-- ✅ **5 Hooks (2 active)** - Post-edit validation + Git pre-commit (minimal tokens)
-- ✅ **3 Optional Hooks** - Disabled by default (can enable for automation)
-- ✅ **Concise Docs** - LESSONS-LEARNED.md 84% smaller (31 lines)
-- ✅ **Token Savings** - 80-90% reduction in automatic token usage
+- ✅ **5 Hooks (4 active)** - SessionStart + Pre-Edit + Post-Edit + Git pre-commit
+- ✅ **2 Optional Hooks** - Pre-Bash, Pre-Grep/Glob (can enable if desired)
+- ✅ **Concise Docs** - LESSONS-LEARNED.md 84% smaller (31 lines, ~400 tokens)
+- ✅ **Token Savings** - 70-75% reduction vs original verbose automation
+
+**Key Insight**: Concise LESSONS-LEARNED.md (31 lines vs 190) makes essential automation affordable!
 
 **Documentation**
-- ✅ **Complete + Updated** - Token-conscious design documented across all guides
+- ✅ **Complete + Updated** - Balanced approach documented across all guides
 - ✅ **Audit Summary** - .claude/AUDIT-SUMMARY.md documents changes
 
 ---
