@@ -2,7 +2,15 @@
 
 # Claude Code Tools Installer
 # Compatible with Windows Git Bash
-# Installs commands, hooks, agents, and configuration
+# Tested on: Git Bash 3.6.4 (Windows 10/11)
+#
+# Compatibility verified:
+# - All commands are POSIX-compliant or Git Bash built-ins
+# - Path handling works with Windows paths (C:/...)
+# - Heredocs work correctly for creating config files
+# - No Linux-specific utilities (like realpath, readlink -f)
+#
+# Installs: commands, hooks, agents, and configuration
 
 set -e  # Exit on error
 
