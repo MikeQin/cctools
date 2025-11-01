@@ -1,11 +1,10 @@
 # Claude Code Tools Implementation
 
-**Status**: ✅ FULLY IMPLEMENTED (Phase 1 + Phase 2)
-**Date**: October 31, 2025
-**Components**: 22 Slash Commands + 4 Quality Gate Hooks + 3 Sub Agents
+**Status**: ✅ TOKEN-CONSCIOUS DESIGN
+**Date**: November 1, 2025
+**Components**: 33 Slash Commands + 5 Hooks (2 active by default) + 4 Sub Agents
 
-> **Note**: Examples in this guide are from a real 0DTE Options Trading application. Adapt slash commands and hooks to match your project structure and workflows.
-
+**NEW**: Token-optimized - hooks disabled by default, simplified prompts, concise docs (80-90% token savings)
 
 ---
 
@@ -13,59 +12,65 @@
 
 ```
 .claude/
-├── README.md (this file)
-├── settings.local.json (permissions + MCP configuration)
-├── commands/ (22 slash commands)
-│   ├── session-start.md ⭐ USE FIRST EVERY SESSION
+├── README.md (quick reference)
+├── LESSONS-LEARNED.md (31 lines - concise anti-patterns)
+├── CHEAT-SHEET.md (one-page reference)
+├── ANTI-PATTERNS.md (condensed quick ref)
+├── settings.local.json (hooks DISABLED by default for token savings)
+├── status-line.sh (component health - active)
+├── status-line-examples.sh (customization templates)
+├── commands/ (33 slash commands - on-demand, zero tokens until used)
+│   ├── session-start.md ⭐ SIMPLIFIED (manual use recommended)
+│   ├── document.md 📚 NEW - Simplified doc agent (~500 tokens)
+│   ├── check-doc-needed.md 📚 NEW - Analyze if docs needed
 │   ├── check-context.md
 │   ├── pre-change.md
-│   ├── read-docs.md
 │   ├── check-types-backend.md
 │   ├── check-types-frontend.md
 │   ├── validate-api-contract.md
 │   ├── debug-checklist.md
 │   ├── verify-environment.md
-│   ├── test-before-change.md
-│   ├── start-all.md
-│   ├── stop-all.md
-│   ├── restart-backend.md
-│   ├── status.md
-│   ├── test-critical.md
-│   ├── test-all.md
-│   ├── test-agents.md
-│   ├── test-mcp.md
-│   ├── build-frontend.md
-│   ├── clean-cache.md
-│   ├── sync-deps.md
-│   └── commit-session.md
-├── hooks/ (4 quality gate hooks - call manually)
-│   ├── pre-edit.sh
-│   ├── post-edit.sh
-│   ├── pre-commit.sh
-│   └── security-check.sh
-└── agents/ (3 sub agents - for complex tasks)
+│   └── ... (+ 23 more)
+├── hooks/ (5 hooks - 2 active by default)
+│   ├── post-edit.sh ✅ ACTIVE (bash script, minimal tokens)
+│   ├── session-start-auto.sh ❌ DISABLED (enable for auto reminders)
+│   ├── pre-edit.sh ❌ DISABLED (enable for pre-edit prompts)
+│   ├── pre-commit.sh ✅ GIT NATIVE (runs outside Claude, no tokens)
+│   └── security-check.sh ⚠️ MANUAL (run before deploy)
+└── agents/ (4 sub agents - on-demand, zero tokens until used)
+    ├── doc-agent.json 📚 NEW - Simplified (~500 tokens vs 8000+)
     ├── refactor-agent.json
     ├── type-validator-agent.json
     └── test-gen-agent.json
 ```
 
+**Token-Conscious Design**:
+- ❌ SessionStart hook disabled → saves ~500 tokens/session
+- ❌ PreToolUse hooks disabled → saves ~100-200 tokens/action
+- ✅ Commands available on-demand (zero tokens until you use them)
+- ✅ Post-edit validation active (minimal tokens, catches errors)
+
 ---
 
 ## 🚀 Quick Start
 
-### 1. Session Start Protocol (CRITICAL)
+### 1. Token-Conscious Session Start (Recommended)
 
-**ALWAYS** start every Claude Code session with:
+**Manually run** when starting work:
 
 ```
 /session-start
 ```
 
-This command enforces the Pre-Work Checklist from .claude/LESSONS-LEARNED.md:
-- Reads .claude/LESSONS-LEARNED.md (anti-patterns)
-- Reads CLAUDE.md (current architecture)
-- Shows recent git changes
+This command now runs a quick check:
+- Reads .claude/LESSONS-LEARNED.md (now only 31 lines!)
+- Shows git status and recent commits
+- Checks component health
 - Asks "What are we working on today?"
+
+**Why manual?** Saves ~500 tokens per session. Run it when you need the reminder.
+
+**Want automatic?** See [Enabling Automation](#enabling-automation) section below.
 
 ---
 
@@ -389,6 +394,80 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
 
 ---
 
+## 🔧 Enabling Automation
+
+**Want automatic hooks?** Edit `.claude/settings.local.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/session-start-auto.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before editing $ARGUMENTS: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary?"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before bash: 1) If restarting 3+ times, use /debug-checklist. 2) If committing, run pre-commit.sh first."
+          }
+        ]
+      },
+      {
+        "matcher": "Glob",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Searching multiple files? Consider using refactor-agent for safer multi-file changes."
+          }
+        ]
+      },
+      {
+        "matcher": "Grep",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Validating types? Consider using type-validator-agent for comprehensive validation."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Token Cost**: Automation adds 100-200 tokens per action. Enable if you prefer convenience over token efficiency.
+
+---
+
 ## 🔗 References
 
 - **LESSONS-LEARNED.md**: [../.claude/LESSONS-LEARNED.md](../.claude/LESSONS-LEARNED.md) - **READ THIS FIRST**
@@ -399,19 +478,19 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
 
 ## ✅ Implementation Status
 
-**Phase 1: Core Tools**
-- ✅ **22 Slash Commands** - Fully implemented
-- ✅ **4 Quality Gate Hooks** - Fully implemented (call manually)
-- ✅ **Permissions Updated** - All necessary bash permissions added
-
-**Phase 2: Optional Enhancements**
-- ✅ **3 Sub Agents** - Fully implemented (refactor, type-validator, test-gen)
-- ⚠️ **Git MCP Server** - Not installed (optional, requires `npm install -g @modelcontextprotocol/server-git`)
+**Token-Conscious Design (November 2025)**
+- ✅ **33 Slash Commands** - All on-demand (zero tokens until used)
+- ✅ **4 Sub Agents** - Including new doc-agent (~500 tokens vs 8000+)
+- ✅ **5 Hooks (2 active)** - Post-edit validation + Git pre-commit (minimal tokens)
+- ✅ **3 Optional Hooks** - Disabled by default (can enable for automation)
+- ✅ **Concise Docs** - LESSONS-LEARNED.md 84% smaller (31 lines)
+- ✅ **Token Savings** - 80-90% reduction in automatic token usage
 
 **Documentation**
-- ✅ **Complete** - This README + CLAUDE-CODE-TOOLS-RECOMMENDATIONS.md
+- ✅ **Complete + Updated** - Token-conscious design documented across all guides
+- ✅ **Audit Summary** - .claude/AUDIT-SUMMARY.md documents changes
 
 ---
 
-**Last Updated**: October 31, 2025
-**Status**: Production Ready
+**Last Updated**: November 1, 2025
+**Status**: Production Ready (Token-Optimized)

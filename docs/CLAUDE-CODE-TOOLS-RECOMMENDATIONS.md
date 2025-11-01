@@ -1,14 +1,20 @@
 # Claude Code Tools Integration Recommendations
 
-**Enhanced with .claude/LESSONS-LEARNED.md patterns** - Prevent recurring mistakes through automation
+**Token-Conscious Design (November 2025)** - Minimal automation by default, on-demand available
 
-**Last Updated**: October 31, 2025
-**Status**: Production Ready
+**Last Updated**: November 1, 2025
+**Status**: Production Ready (Token-Optimized)
+**Project Version**: 3.4.0
+**References**: [LESSONS-LEARNED.md](../.claude/LESSONS-LEARNED.md) (now 31 lines)
 
-**References**: [LESSONS-LEARNED.md](../.claude/LESSONS-LEARNED.md)
+---
 
-> **Note**: Recommendations are tailored for a 0DTE Options Trading application (3-component system). Adapt tools and commands to match your project architecture, tech stack, and anti-patterns.
+## ⚡ Token-Conscious Update
 
+**What Changed**: Hooks disabled by default in `.claude/settings.local.json` to save 80-90% tokens.
+- Commands still available on-demand (zero tokens until used)
+- Post-edit validation + Git pre-commit still active (minimal tokens)
+- Users can re-enable hooks if they prefer automation over token efficiency
 
 ---
 

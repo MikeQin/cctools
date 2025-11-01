@@ -1,17 +1,35 @@
 # Claude Code Automation Guide
 
-**Smart hooks that invoke tools automatically - you don't need to remember!**
+**Token-conscious design: Automation is OPTIONAL (disabled by default)**
 
 **Last Updated**: November 1, 2025
 
-> **Note**: Examples in this guide are from a real 0DTE Options Trading application. Adapt them to your project - they demonstrate concepts, not prescriptions.
+---
 
+## ⚡ Token-Conscious Design (NEW)
+
+**Default Configuration: Minimal Automation**
+
+To save tokens (80-90% reduction), most hooks are **disabled by default**:
+- ❌ Session-start reminders (~500 tokens/session)
+- ❌ Pre-edit prompts (~100 tokens/edit)
+- ❌ Pre-bash prompts (~100 tokens/command)
+- ❌ Pre-grep/glob prompts (~100 tokens/search)
+
+**Still Active (Minimal Token Cost):**
+- ✅ Post-edit validation (bash script, catches errors)
+- ✅ Status line (no tokens)
+- ✅ Git pre-commit hook (native git, no Claude tokens)
+
+**Want Automation?** Enable hooks in `.claude/settings.local.json` - see [Enabling Automation](#enabling-automation) section below.
 
 ---
 
-## 🤖 How Automation Works
+## 🤖 How Automation Works (When Enabled)
 
-The tools are configured with **intelligent hooks** that automatically trigger at the right moments. You focus on coding, the tools handle best practices.
+The tools can be configured with **intelligent hooks** that automatically trigger at the right moments. You focus on coding, the tools handle best practices.
+
+**Note**: This guide describes hooks when ENABLED. By default, they're disabled for token savings.
 
 ---
 
@@ -378,48 +396,115 @@ to ensure all references are updated safely."
 
 ---
 
+## 🔧 Enabling Automation
+
+**Want automatic reminders?** Edit `.claude/settings.local.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/session-start-auto.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before editing $ARGUMENTS: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary?"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before bash: 1) If restarting 3+ times, use /debug-checklist. 2) If committing, run pre-commit.sh first."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Trade-off**: Automation costs 100-200 tokens per action. Evaluate based on your usage patterns.
+
+---
+
 ## 🚀 Quick Reference
 
-| Automation | Trigger | Action |
-|------------|---------|--------|
-| **Status Line** | Always | Shows component health |
-| **Session Start** | Claude Code launches | Reminds of protocol |
-| **Pre-Edit** | Before Edit/Write | Type check + refactor-agent suggestion |
-| **Post-Edit** ⚡ | **After Edit (AUTOMATIC)** | **Syntax/type validation** |
-| **Pre-Bash** | Before Bash commands | Debug loop + deploy reminders |
-| **Pre-Glob** | Before file search | Refactor-agent suggestion |
-| **Pre-Grep** | Before code search | Type-validator-agent suggestion |
-| **Git Pre-Commit** 🔒 | **Before git commit (AUTOMATIC)** | **Quality gate - BLOCKS bad commits** |
-| **Security Check** | Before deploy (reminded) | Security validation (semi-auto) |
+| Automation | Default | Trigger | Action |
+|------------|---------|---------|--------|
+| **Status Line** | ✅ ACTIVE | Always | Shows component health |
+| **Session Start** | ❌ Disabled | Claude Code launches | Reminds of protocol |
+| **Pre-Edit** | ❌ Disabled | Before Edit/Write | Type check + refactor-agent suggestion |
+| **Post-Edit** ⚡ | ✅ ACTIVE | **After Edit (AUTOMATIC)** | **Syntax/type validation** |
+| **Pre-Bash** | ❌ Disabled | Before Bash commands | Debug loop + deploy reminders |
+| **Pre-Glob** | ❌ Disabled | Before file search | Refactor-agent suggestion |
+| **Pre-Grep** | ❌ Disabled | Before code search | Type-validator-agent suggestion |
+| **Git Pre-Commit** 🔒 | ✅ ACTIVE | **Before git commit (AUTOMATIC)** | **Quality gate - BLOCKS bad commits** |
+| **Security Check** | ⚠️ Manual | Before deploy (reminded) | Security validation (semi-auto) |
 
 ---
 
 ## 💡 Pro Tips
 
+**Token-Conscious Workflow (Default)**:
+1. **Run /session-start manually** when starting work
+2. **Read .claude/LESSONS-LEARNED.md** (only 31 lines now!)
+3. **Use slash commands on-demand** (/pre-change, /check-types-*, /debug-checklist)
+4. **Watch status line** - Instant component health visibility
+5. **Trust post-edit validation** - Catches errors automatically
+6. **Pre-commit hook prevents mistakes** - Always runs before committing
+
+**Automation-Enabled Workflow (Optional)**:
 1. **Trust the automation** - It enforces .claude/LESSONS-LEARNED.md patterns
-2. **Ask Claude to run hooks** - "Run post-edit validation on this file"
-3. **Watch the status line** - Instant component health visibility
-4. **Let session start remind you** - No need to remember protocol
-5. **Pre-commit hook prevents mistakes** - Always run before committing
+2. **Let hooks remind you** - No need to remember manually
+3. **Accept token cost** - 100-200 tokens per action for convenience
 
 ---
 
-## 🎯 Expected Benefits
+## 🎯 Token Economics
 
-**Before Automation**:
-- Forgot to read .claude/LESSONS-LEARNED.md → broke working code
-- Forgot to check types → runtime errors
-- Trial-and-error debugging → hours wasted
-- Forgot to run tests → broken commits
+**Default Configuration (Minimal Automation)**:
+- ✅ Post-edit validation catches errors (minimal tokens)
+- ✅ Pre-commit hook prevents broken commits (no Claude tokens)
+- ✅ Status line shows health (no tokens)
+- ✅ Manual /session-start when needed
+- ✅ Manual slash commands for checks
 
-**With Automation**:
+**Token Savings**: 80-90% reduction vs full automation
+**Trade-off**: Less automatic reminders, more user discipline required
+
+**Enabled Automation (Optional)**:
 - ✅ Automatic reminders enforce best practices
 - ✅ Type checking prompted before edits
 - ✅ Inefficient patterns caught early
-- ✅ Quality gates prevent broken commits
+- ❌ Costs 100-200 tokens per action
 
-**Time Saved**: 2-3 hours per day
-**Bugs Prevented**: 90% of type mismatches, 100% of broken commits
+**Token Cost**: Higher, but convenience may justify it for some users
+**Trade-off**: Automation vs token efficiency
 
 ---
 

@@ -2,24 +2,24 @@
 
 **Practical examples for common development scenarios**
 
-**Last Updated**: October 31, 2025
+**Last Updated**: November 1, 2025
 
-> **Note**: Examples show workflows from a real 0DTE Options Trading application (MCP server, FastAPI backend, Next.js frontend). Adapt scenarios to your project architecture and tech stack.
-
+**Token-Conscious Approach**: These examples show manual use of commands (on-demand, zero tokens until used). Hooks are disabled by default to save 80-90% tokens.
 
 ---
 
 ## 🚀 Daily Development Scenarios
 
-### Scenario 1: Starting Your Day
+### Scenario 1: Starting Your Day (Token-Conscious)
 
-**Goal**: Begin a new development session safely
+**Goal**: Begin a new development session safely with minimal token usage
 
 ```
-1. /session-start
-   → Reads .claude/LESSONS-LEARNED.md
+1. /session-start (MANUAL - run when you need the reminder)
+   → Reads .claude/LESSONS-LEARNED.md (now only 31 lines!)
    → Shows recent git changes
    → Asks what you're working on
+   → Saves ~500 tokens by being manual vs automatic
 
 2. /status
    → Checks if all components are running
@@ -29,6 +29,8 @@
    /start-all
    → Starts MCP (8000), Backend (8001), Frontend (3000)
 ```
+
+**Token Savings**: ~500 tokens per session (no automatic session-start hook)
 
 **Expected Output**:
 ```
