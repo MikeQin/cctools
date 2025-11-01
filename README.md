@@ -357,3 +357,48 @@ Built with insights from real-world development challenges:
 **Last Updated**: November 1, 2025
 **Version**: 1.0.0
 **Compatibility**: Claude Code (tested on Windows Git Bash)
+
+---
+
+## 🎨 Customization
+
+### Status Line (Always Customize This!)
+
+**The default status-line.sh is generic** and shows:
+```
+[main] ✅ clean
+[main] 📝 3 changes  
+```
+
+**For your project**, customize it to show your components:
+```bash
+# Edit .claude/status-line.sh
+# See status-line-examples.sh for 6 ready-to-use examples:
+# - Multi-component apps (MCP + API + UI)
+# - Microservices architecture
+# - Database + Backend + Frontend
+# - Docker Compose setups
+# - Simple backend only
+# - Git status with test coverage
+```
+
+**Example output after customization**:
+```
+[main] MCP:✅ API:✅ UI:✅
+[main] DB:✅ API:✅ UI:❌
+[main] Containers:✅ 5/5
+```
+
+📖 **See [CUSTOMIZATION.md](CUSTOMIZATION.md) for complete guide**
+
+---
+
+### Other Customizations
+
+**Pre-Commit Hook** - Add project-specific tests
+**Security Check** - Add security-specific checks  
+**Slash Commands** - Create new project-specific commands
+**Sub Agents** - Customize agent prompts for your project
+
+📖 **Full guide**: [CUSTOMIZATION.md](CUSTOMIZATION.md)
+
