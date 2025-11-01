@@ -2,13 +2,16 @@
 
 **One-page reference for daily use** | [Full Docs](../docs/CLAUDE-CODE-TOOLS-USAGE.md)
 
+> **Note**: Commands shown are from the original project. Customize slash commands in `.claude/commands/` to match your project needs.
+
+
 ---
 
 ## 📊 Status Line (Always Visible)
 
-Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
-- ✅ = Component running
-- ❌ = Component down
+Your terminal shows: `[branch] ✅ clean` (customize in `.claude/status-line.sh`)
+- See `status-line-examples.sh` for 6 ready-to-use templates
+- Adapt to show your components, services, or metrics
 
 ---
 
@@ -29,7 +32,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 | `/test-critical` | Before commit | 3min |
 | `/restart-backend` | After code changes | 15s |
 | `/pre-change` | Before editing existing code | Instant |
-| `/debug-checklist` | After 3+ backend restarts | Instant |
+| `/debug-checklist` | After 3+ service restarts | Instant |
 
 ---
 
@@ -75,7 +78,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 | Pre-Bash | Before bash commands | Debug loop prevention + commit/deploy reminders |
 | Pre-Glob | Before file search | Refactor-agent suggestion |
 | Pre-Grep | Before code search | Type-validator-agent suggestion |
-| Status Line | Always visible | Component health |
+| Status Line | Always visible | Project status |
 
 ---
 
@@ -91,7 +94,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 
 **What it does**:
 - ✅ Runs `./.claude/hooks/pre-commit.sh` automatically
-- ✅ Tests MCP integration, V3 cache, type safety, hardcoded values, linting
+- ✅ Runs your project-specific tests (customize in pre-commit.sh)
 - ✅ **BLOCKS commit** if any test fails
 - ✅ Works with `git commit` command AND Git GUI tools
 - ✅ **Zero configuration needed** - already installed!
@@ -117,7 +120,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 
 **Making changes**: `/pre-change` `/check-types-*` `/test-before-change`
 
-**Debugging**: `/debug-checklist` `/verify-environment` `/db-status`
+**Debugging**: `/debug-checklist` `/verify-environment`
 
 **Testing**: `/quick-test` (fast) or `/test-critical` (thorough)
 
@@ -131,10 +134,10 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 
 | Command | Purpose |
 |---------|---------|
-| `/logs` | View recent logs (MCP/Backend) |
+| `/logs` | View recent logs |
 | `/ports` | Check port usage |
 | `/env-check` | Validate environment variables |
-| `/model-check` | Verify Ollama models |
+| `/model-check` | Verify AI models (if using) |
 | `/version-bump` | Increment version |
 | `/changelog-update` | Update CHANGELOG.md |
 
@@ -146,7 +149,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 
 **Env issues**: `/env-check` → Fix missing variables
 
-**Model errors**: `/model-check` → Verify Ollama
+**Model errors**: `/model-check` → Verify model availability
 
 **Type errors**: `/check-types-*` → Use `type-validator-agent`
 

@@ -2,6 +2,9 @@
 
 **Purpose**: This document captures recurring mistakes and inefficiencies observed during development. Read this at the START of EVERY session before making any changes.
 
+> **Note**: Examples reference paths and tools from the original 0DTE Options Trading project (Python backend, TypeScript frontend). Adapt file paths, scripts, and documentation references to match your project structure.
+
+
 ---
 
 ## 🚨 Critical Anti-Patterns
