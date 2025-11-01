@@ -1,0 +1,23 @@
+# Claude Code Tools - Git Attributes
+# Ensures consistent line endings across platforms
+
+# Auto-detect text files and normalize to LF in repository
+* text=auto
+
+# Shell scripts must use LF (required for Git Bash and Unix)
+*.sh text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Ensure Windows batch files use CRLF (if any)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files (if any in future)
+*.png binary
+*.jpg binary
+*.gif binary
