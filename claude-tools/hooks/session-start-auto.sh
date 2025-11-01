@@ -1,23 +1,15 @@
 #!/usr/bin/env bash
 
-# Auto-run on Claude Code startup
-# Reminds about session start protocol
+# Quick session start reminder
 
-echo "🚀 Claude Code Session Starting..."
-echo ""
-echo "📋 Session Start Protocol:"
-echo "  1. ✅ Read .claude/LESSONS-LEARNED.md"
-echo "  2. ✅ Check recent git changes"
-echo "  3. ✅ Verify component status"
-echo ""
-echo "💡 Tip: Use /session-start for full protocol"
+echo "🚀 Session Starting - Use /session-start for quick check"
 echo ""
 
-# Quick component status check
+# Quick health check
 if curl -s http://localhost:8001/health >/dev/null 2>&1; then
-  echo "✅ Components appear to be running"
+  echo "✅ Components running"
 else
-  echo "⚠️  Components not running - use /start-all"
+  echo "⚠️  Components down - use /start-all"
 fi
 
 exit 0

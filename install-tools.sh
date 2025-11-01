@@ -116,54 +116,8 @@ else
     "command": "./.claude/status-line.sh"
   },
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "./.claude/hooks/session-start-auto.sh"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Before editing $ARGUMENTS, remember: 1) Have you read the type definitions? 2) Have you tested existing functionality? 3) Is this change necessary? If editing multiple files with similar changes, consider using refactor-agent sub agent for safer large-scale refactoring. Proceed with the edit."
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Before running bash command: 1) If restarting backend 3+ times, use /debug-checklist. 2) If running 'git commit', ensure pre-commit.sh passed first. 3) If deploying (git push/npm run deploy), ensure security-check.sh passed first. Proceed."
-          }
-        ]
-      },
-      {
-        "matcher": "Glob",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "You're searching for multiple files. If planning large-scale refactoring across many files, consider using refactor-agent sub agent (Task tool with subagent_type='refactor-agent') for safer systematic changes. Proceed with search."
-          }
-        ]
-      },
-      {
-        "matcher": "Grep",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "You're searching code. If validating type consistency across backend/frontend (Pydantic models vs TypeScript interfaces), consider using type-validator-agent sub agent (Task tool with subagent_type='type-validator-agent') for comprehensive validation. Proceed with search."
-          }
-        ]
-      }
-    ],
+    "SessionStart": [],
+    "PreToolUse": [],
     "PostToolUse": [
       {
         "matcher": "Edit",

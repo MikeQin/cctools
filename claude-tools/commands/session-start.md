@@ -1,13 +1,9 @@
 ---
-description: Session start protocol - Read docs before making any changes
+description: Quick session start protocol
 ---
-**SESSION START PROTOCOL** (.claude/LESSONS-LEARNED.md enforced):
+**SESSION START**:
 
-1. Read .claude/LESSONS-LEARNED.md to review anti-patterns
-2. Read CLAUDE.md for current architecture state
-3. Run git log -5 --oneline to see recent changes
-4. Run git status to check current state
-5. Run git diff to see uncommitted changes
-6. Display summary and ask: "What are we working on today?"
-
-**CRITICAL**: This command MUST be run at the start of EVERY session before making ANY changes.
+1. Read .claude/LESSONS-LEARNED.md (now concise - 31 lines)
+2. Run `git status` and `git log -3 --oneline`
+3. Check component health: `curl localhost:8001/health`
+4. Ask: "What are we working on today?"
