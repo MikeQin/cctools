@@ -4,6 +4,9 @@
 **Date**: October 31, 2025
 **Components**: 22 Slash Commands + 4 Quality Gate Hooks + 3 Sub Agents
 
+> **Note**: Examples in this guide are from a real 0DTE Options Trading application. Adapt slash commands and hooks to match your project structure and workflows.
+
+
 ---
 
 ## 📁 Directory Structure

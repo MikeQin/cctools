@@ -4,6 +4,9 @@
 
 **Last Updated**: November 1, 2025
 
+> **Note**: Examples in this guide are from a real 0DTE Options Trading application. Adapt them to your project - they demonstrate concepts, not prescriptions.
+
+
 ---
 
 ## 🤖 How Automation Works

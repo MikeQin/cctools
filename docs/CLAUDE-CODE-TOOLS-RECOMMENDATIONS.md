@@ -4,8 +4,11 @@
 
 **Last Updated**: October 31, 2025
 **Status**: Production Ready
-**Project Version**: 3.4.0
+
 **References**: [LESSONS-LEARNED.md](../.claude/LESSONS-LEARNED.md)
+
+> **Note**: Recommendations are tailored for a 0DTE Options Trading application (3-component system). Adapt tools and commands to match your project architecture, tech stack, and anti-patterns.
+
 
 ---
 

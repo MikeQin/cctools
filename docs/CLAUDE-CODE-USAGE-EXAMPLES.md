@@ -4,6 +4,9 @@
 
 **Last Updated**: October 31, 2025
 
+> **Note**: Examples show workflows from a real 0DTE Options Trading application (MCP server, FastAPI backend, Next.js frontend). Adapt scenarios to your project architecture and tech stack.
+
+
 ---
 
 ## 🚀 Daily Development Scenarios
