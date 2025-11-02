@@ -258,7 +258,7 @@ Step 3: Post-Edit Validation
    → Map dependencies
 
 2. Use refactor-agent (sub agent):
-   "Use the refactor-agent to extract common code from backend/agents/ into backend/agents/common/"
+   "Use the refactor-agent to extract common code from backend/agent-profiles/ into backend/agent-profiles/common/"
 
 3. Agent workflow:
    → Tests existing functionality FIRST
@@ -278,7 +278,7 @@ Step 3: Post-Edit Validation
 🤖 Refactor Agent Starting:
 
 Step 1: Test Existing Functionality
-✅ Running pytest tests/agents/ -v
+✅ Running pytest tests/agent-profiles/ -v
 ✅ All 10 agent tests PASSED
 
 Step 2: Analyze Code for Common Patterns
@@ -287,12 +287,12 @@ Step 2: Analyze Code for Common Patterns
    - analyst_agent_v3.py (lines 67-145)
    - trader_agent_v3.py (lines 89-160)
 
-Step 3: Extract to backend/agents/common/tool_utils.py
+Step 3: Extract to backend/agent-profiles/common/tool_utils.py
 ✅ Created new file
 ✅ Updated imports in 3 files
 
 Step 4: Test After Change
-✅ Running pytest tests/agents/ -v
+✅ Running pytest tests/agent-profiles/ -v
 ✅ All 10 agent tests still PASSED
 
 ✅ Refactoring complete - no functionality broken

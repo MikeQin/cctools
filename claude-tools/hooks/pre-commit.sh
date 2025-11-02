@@ -20,7 +20,7 @@ if curl -s http://localhost:8000/health >/dev/null 2>&1; then
   }
 
   echo "Testing V3 Analyst Cache..."
-  PYTHONPATH=backend uv run pytest tests/agents/test_v3_analyst_cache.py -v || {
+  PYTHONPATH=backend uv run pytest tests/agent-profiles/test_v3_analyst_cache.py -v || {
     echo "❌ V3 Analyst cache test FAILED"
     exit 1
   }

@@ -1,39 +1,85 @@
 ---
-description: Bump version in package.json and pyproject.toml
+description: Bump version (major/minor/patch)
 ---
-**VERSION BUMP** - Increment project version:
+**VERSION BUMP**:
 
-1. Show current versions:
-   - Frontend (package.json): Read current version
-   - Backend (pyproject.toml): Read current version
+Increment version number across your project.
 
-2. Ask user which version to bump:
-   - Major (1.0.0 → 2.0.0) - Breaking changes
-   - Minor (1.0.0 → 1.1.0) - New features
-   - Patch (1.0.0 → 1.0.1) - Bug fixes
+## Quick Setup
 
-3. Bump versions:
+### Example 1: NPM (package.json)
+```bash
+# Patch (1.0.0 → 1.0.1)
+npm version patch
 
-   **Frontend**:
-   - cd frontend && npm version <major|minor|patch> --no-git-tag-version
+# Minor (1.0.0 → 1.1.0)
+npm version minor
 
-   **Backend** (pyproject.toml):
-   - Update version = "x.y.z" in [project] section
+# Major (1.0.0 → 2.0.0)
+npm version major
+```
 
-   **Root** (pyproject.toml):
-   - Update version = "x.y.z" in [project] section
+### Example 2: Python (pyproject.toml)
+```bash
+# Using poetry
+poetry version patch
+poetry version minor
+poetry version major
 
-4. Display new versions:
-   - Frontend: 3.4.0 → 3.5.0
-   - Backend: 3.4.0 → 3.5.0
-   - Root: 3.4.0 → 3.5.0
+# Manual edit
+sed -i 's/version = "1.0.0"/version = "1.0.1"/' pyproject.toml
+```
 
-5. Reminder:
-   - Don't forget to update CHANGELOG.md
-   - Use /changelog-update command
-   - Commit with message: "chore: Bump version to x.y.z"
+### Example 3: Multiple Files
+```bash
+# Update version in multiple places
+VERSION="1.0.1"
+sed -i "s/version = .*/version = \"$VERSION\"/" pyproject.toml
+sed -i "s/\"version\": .*/\"version\": \"$VERSION\",/" package.json
+```
 
-**Use when**:
-- Preparing for new release
-- After completing feature set
-- Before deployment
+### Example 4: Git Tag
+```bash
+# Create git tag after version bump
+git tag -a v1.0.1 -m "Release v1.0.1"
+git push --tags
+```
+
+## Semantic Versioning
+
+- **MAJOR** (1.0.0 → 2.0.0): Breaking changes
+- **MINOR** (1.0.0 → 1.1.0): New features, backward compatible
+- **PATCH** (1.0.0 → 1.0.1): Bug fixes, backward compatible
+
+## Typical Workflow
+
+```bash
+# 1. Bump version
+npm version minor
+
+# 2. Update changelog
+/changelog-update
+
+# 3. Commit version bump
+git add package.json CHANGELOG.md
+git commit -m "chore: bump version to v1.1.0"
+
+# 4. Create git tag
+git tag -a v1.1.0 -m "Release v1.1.0"
+
+# 5. Push
+git push && git push --tags
+```
+
+## Files to Update
+
+Common files that contain version numbers:
+- `package.json` (Node.js)
+- `pyproject.toml` (Python)
+- `Cargo.toml` (Rust)
+- `go.mod` (Go)
+- `build.gradle` (Java/Kotlin)
+- `pom.xml` (Maven)
+- `VERSION` file
+- `CHANGELOG.md`
+- Documentation

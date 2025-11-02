@@ -139,3 +139,39 @@ All contributors will be:
 ---
 
 **Thank you for making Claude Code Tools better!** 🚀
+
+## 🔖 Version Management
+
+When contributing changes:
+
+### Update VERSION File
+
+```bash
+# Bump version based on changes
+# Major: Breaking changes (1.0.0 → 2.0.0)
+# Minor: New features (1.0.0 → 1.1.0)
+# Patch: Bug fixes (1.0.0 → 1.0.1)
+
+echo "2.1.0" > VERSION
+```
+
+### Test Installation Workflows
+
+Test all three scenarios:
+```bash
+# 1. Fresh installation
+./install-tools.sh  # In empty project
+
+# 2. Re-installation
+./install-tools.sh  # In project with existing .claude/
+
+# 3. Uninstallation  
+./uninstall-tools.sh
+```
+
+Ensure:
+- Version numbers display correctly
+- Backups are created properly
+- Settings preservation works (Option 1)
+- Uninstaller shows correct files
+

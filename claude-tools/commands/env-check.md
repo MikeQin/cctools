@@ -1,45 +1,87 @@
 ---
-description: Validate all environment variables are configured
+description: Validate environment variables (CUSTOMIZE FOR YOUR PROJECT)
 ---
-**ENVIRONMENT VALIDATION** - Check all required env vars:
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Load and verify .env file exists in root
+Validate that all required environment variables are set.
 
-2. Check critical environment variables:
+**To customize**: Edit this file with YOUR required variables.
 
-   **Database**:
-   - DB_HOST (should be: mike-linux)
-   - DB_PORT (should be: 5432)
-   - DB_NAME
-   - DB_USER
+## Quick Setup
 
-   **API Keys**:
-   - BACKEND_API_KEYS (should NOT be empty)
-   - MCP_API_KEY (should NOT be default test value)
+Create a list of required environment variables for your project:
 
-   **Ollama Models**:
-   - PRIMARY_MODEL (should be: gpt-oss:20b)
-   - FALLBACK_MODEL (should be: qwen3:8b)
-   - OLLAMA_BASE_URL (should be configured)
+### Example 1: Backend API
+```bash
+# Check if variables are set
+echo "API_KEY: ${API_KEY:-NOT_SET}"
+echo "DATABASE_URL: ${DATABASE_URL:-NOT_SET}"
+echo "REDIS_URL: ${REDIS_URL:-NOT_SET}"
+echo "JWT_SECRET: ${JWT_SECRET:-NOT_SET}"
+```
 
-   **NextAuth** (Frontend):
-   - NEXTAUTH_URL
-   - NEXTAUTH_SECRET (should NOT be "your-secret-key")
-   - GOOGLE_CLIENT_ID
-   - GOOGLE_CLIENT_SECRET
+### Example 2: Using a Script
+```bash
+#!/bin/bash
+REQUIRED_VARS=(
+  "API_KEY"
+  "DATABASE_URL"
+  "REDIS_URL"
+  "JWT_SECRET"
+)
 
-3. Display results:
-   - ✅ Variable set and valid
-   - ⚠️ Variable set but looks like default/test value
-   - ❌ Variable missing or empty
+for var in "${REQUIRED_VARS[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "❌ $var is NOT set"
+  else
+    echo "✅ $var is set"
+  fi
+done
+```
 
-4. Show summary:
-   - Total variables checked
-   - Issues found
-   - Ready for production: YES/NO
+### Example 3: Check .env File
+```bash
+# Check if .env file exists
+if [ -f ".env" ]; then
+  echo "✅ .env file exists"
+  # Show variable names (not values)
+  grep -v '^#' .env | grep -v '^$' | cut -d '=' -f1
+else
+  echo "❌ .env file not found"
+fi
+```
 
-**Use when**:
-- After cloning repository
-- Before deployment
-- Debugging "connection refused" errors
-- Setting up new environment
+### Example 4: Language-Specific
+
+**Python**:
+```python
+import os
+required = ['API_KEY', 'DATABASE_URL', 'REDIS_URL']
+for var in required:
+    if var in os.environ:
+        print(f"✅ {var} is set")
+    else:
+        print(f"❌ {var} is NOT set")
+```
+
+**Node.js**:
+```javascript
+const required = ['API_KEY', 'DATABASE_URL', 'REDIS_URL'];
+required.forEach(var => {
+  if (process.env[var]) {
+    console.log(`✅ ${var} is set`);
+  } else {
+    console.log(`❌ ${var} is NOT set`);
+  }
+});
+```
+
+## What to Check
+
+Typical categories:
+- API keys (third-party services)
+- Database URLs
+- Cache URLs (Redis, Memcached)
+- Authentication secrets (JWT, OAuth)
+- Service URLs (microservices)
+- Feature flags

@@ -51,6 +51,46 @@ echo "Installing to: $TARGET_DIR"
 echo ""
 
 # Verify target directory exists
+
+# Check if .claude directory already exists
+if [ -d "$TARGET_DIR/.claude" ]; then
+    echo ""
+    echo "=========================================="
+    echo "⚠️  Claude Code Tools Already Installed"
+    echo "=========================================="
+    echo ""
+    echo "Existing installation found at: $TARGET_DIR/.claude"
+    echo ""
+    echo "What would you like to do?"
+    echo ""
+    echo "1) Update (preserve settings.local.json, overwrite everything else)"
+    echo "2) Backup & Update (backup existing .claude/ to .claude.backup/, then update)"
+    echo "3) Skip installation (cancel)"
+    echo ""
+    read -p "Your choice [1-3]: " REINSTALL_CHOICE
+    
+    case $REINSTALL_CHOICE in
+      1)
+        echo "✅ Updating tools (preserving settings.local.json)..."
+        UPDATE_MODE="update"
+        ;;
+      2)
+        echo "✅ Creating backup and updating..."
+        BACKUP_DIR="$TARGET_DIR/.claude.backup.$(date +%Y%m%d-%H%M%S)"
+        cp -r "$TARGET_DIR/.claude" "$BACKUP_DIR"
+        echo "   📦 Backup saved to: $BACKUP_DIR"
+        UPDATE_MODE="backup-update"
+        ;;
+      *)
+        echo "❌ Installation cancelled"
+        exit 0
+        ;;
+    esac
+    echo ""
+else
+    UPDATE_MODE="fresh"
+fi
+
 if [ ! -d "$TARGET_DIR" ]; then
     echo "❌ Error: Target directory does not exist: $TARGET_DIR"
     exit 1
@@ -89,6 +129,10 @@ cp "$TOOLS_DIR/ANTI-PATTERNS.md" "$TARGET_DIR/.claude/"
 cp "$TOOLS_DIR/LESSONS-LEARNED.md" "$TARGET_DIR/.claude/"
 cp "$TOOLS_DIR/CHEAT-SHEET.md" "$TARGET_DIR/.claude/"
 cp "$TOOLS_DIR/README.md" "$TARGET_DIR/.claude/"
+n# Copy VERSION file
+if [ -f "$SCRIPT_DIR/VERSION" ]; then
+    cp "$SCRIPT_DIR/VERSION" "$TARGET_DIR/.claude/"
+fi
 cp "$TOOLS_DIR/status-line.sh" "$TARGET_DIR/.claude/"
 cp "$TOOLS_DIR/status-line-examples.sh" "$TARGET_DIR/.claude/"
 chmod +x "$TARGET_DIR/.claude/status-line.sh"
@@ -97,7 +141,58 @@ echo "   ✅ Installed core files (including status-line-examples.sh)"
 
 # Create settings.local.json if it doesn't exist
 SETTINGS_FILE="$TARGET_DIR/.claude/settings.local.json"
-if [ -f "$SETTINGS_FILE" ]; then
+if [ "$UPDATE_MODE" = "fresh" ]; then
+    echo ""
+    echo "⚙️  Creating settings.local.json..."
+    cat > "$SETTINGS_FILE" << 'EOF'
+{
+  "permissions": {
+    "allow": [],
+    "deny": [],
+    "ask": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "./.claude/status-line.sh"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/session-start-auto.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before editing: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary? (See .claude/LESSONS-LEARNED.md)"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
+    echo "   ✅ Created settings.local.json"
+elif [ -f "$SETTINGS_FILE" ]; then
     echo ""
     echo "⚠️  settings.local.json already exists"
     echo "   Skipping (please merge manually if needed)"

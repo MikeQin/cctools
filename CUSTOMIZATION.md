@@ -230,7 +230,7 @@ Run these 5 tests that MUST pass:
 
 ### Customizing Agent Prompts
 
-**Edit** `.claude/agents/refactor-agent.json`:
+**Edit** `.claude/agent-profiles/refactor-agent.json`:
 
 ```json
 {

@@ -1,34 +1,138 @@
 ---
-description: Pre-deployment validation checklist
+description: Pre-deployment validation (CUSTOMIZE FOR YOUR PROJECT)
 ---
-**PRE-DEPLOYMENT VALIDATION** (run before deploying to production):
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Run critical smoke tests:
-   - /test-critical (must pass all 5 tests)
+Pre-deployment validation checklist.
 
-2. Build frontend:
-   - /build-frontend (must have zero ESLint warnings)
+**To customize**: Add YOUR project's deployment requirements.
 
-3. Security validation:
-   - Run ./.claude/hooks/security-check.sh
-   - Check for exposed secrets
-   - Verify no test API keys in code
+## Deployment Checklist
 
-4. Environment check:
-   - Verify NEXTAUTH_SECRET is NOT default value
-   - Check BACKEND_API_KEYS are production keys
-   - Verify database connection string is correct
+### 1. Code Quality
+```bash
+# All tests pass
+npm test
+# Or: pytest
+# Or: go test ./...
 
-5. Git status:
-   - Run git status (should be clean)
-   - Ensure all changes are committed
+# Linting passes
+npm run lint
+# Or: pylint src/
+# Or: golangci-lint run
 
-6. Display deployment readiness summary:
-   - ✅ All tests passed
-   - ✅ Frontend builds successfully
-   - ✅ Security validation passed
-   - ✅ Environment configured
-   - ✅ Git status clean
+# Type checking passes
+tsc --noEmit
+# Or: mypy src/
+```
 
-**If all checks pass**: Ready to deploy
-**If any fail**: DO NOT deploy - fix issues first
+### 2. Build Verification
+```bash
+# Production build succeeds
+npm run build
+# Or: docker build -t myapp:latest .
+# Or: go build -o myapp
+
+# No errors or warnings in build output
+```
+
+### 3. Environment Configuration
+```bash
+# Production environment variables set
+/env-check
+
+# Secrets configured (API keys, tokens)
+# Database URLs correct
+# Feature flags configured
+```
+
+### 4. Security Checks
+```bash
+# Run security scan
+./.claude/hooks/security-check.sh
+
+# No hardcoded secrets
+git grep -i "password\|secret\|api.key" src/
+
+# Dependencies have no critical vulnerabilities
+npm audit --production --audit-level=high
+# Or: safety check
+# Or: snyk test
+```
+
+### 5. Database Migrations
+```bash
+# Migrations tested
+# Rollback plan ready
+# Backup completed
+
+# Example: Django
+python manage.py migrate --check
+
+# Example: Rails
+rails db:migrate:status
+
+# Example: Prisma
+npx prisma migrate status
+```
+
+### 6. Performance
+```bash
+# Load testing completed (if applicable)
+# Bundle size acceptable
+# API response times acceptable
+```
+
+### 7. Monitoring & Logs
+```bash
+# Logging configured
+# Error tracking setup (Sentry, etc.)
+# Metrics/APM configured
+# Alerts configured
+```
+
+## Platform-Specific
+
+### Vercel/Netlify
+```bash
+# Preview deployment tested
+# Environment variables synced
+# Build command correct
+```
+
+### Docker/Kubernetes
+```bash
+# Image builds successfully
+docker build -t myapp:v1.0.0 .
+
+# Container starts without errors
+docker run --rm myapp:v1.0.0
+
+# Health checks pass
+```
+
+### Traditional Server
+```bash
+# SSH access verified
+# Deployment scripts tested
+# Backup script ready
+# Rollback procedure documented
+```
+
+## Final Checklist
+
+- [ ] All tests pass
+- [ ] Build succeeds
+- [ ] Security scan clean
+- [ ] Environment configured
+- [ ] Database migrations ready
+- [ ] Monitoring configured
+- [ ] Rollback plan ready
+- [ ] Team notified
+
+## After Deployment
+
+1. Monitor logs for errors
+2. Check health endpoints
+3. Verify key user flows
+4. Monitor performance metrics

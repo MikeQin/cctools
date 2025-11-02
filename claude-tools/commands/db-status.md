@@ -1,18 +1,73 @@
 ---
-description: Check PostgreSQL database connectivity (mike-linux:5432)
+description: Check database connectivity (CUSTOMIZE FOR YOUR PROJECT)
 ---
-**DATABASE CONNECTIVITY CHECK**:
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Load environment variables from .env
-2. Test connection: powershell.exe -Command "Test-NetConnection -ComputerName 'mike-linux' -Port 5432 -InformationLevel Quiet"
-3. If successful, display:
-   - Database host: mike-linux:5432
-   - Expected record counts:
-     - CBOE records: 935,839
-     - Schwab records: 1,329,811
-4. If failed, display:
-   - ❌ Database not reachable
-   - Suggest checking if database server is running
-   - Remind that MCP server requires database connection
+Check if your database is accessible.
 
-**Purpose**: MCP server (port 8000) requires PostgreSQL for all 22 tools
+**To customize**: Edit this file with YOUR database details.
+
+## Quick Setup
+
+### Example 1: PostgreSQL
+```bash
+# Check if PostgreSQL is running
+pg_isready -h localhost -p 5432
+
+# Or using psql
+psql -h localhost -p 5432 -U your_user -d your_db -c "SELECT 1"
+
+# Or using PowerShell (Windows)
+powershell.exe -Command "Test-NetConnection -ComputerName localhost -Port 5432 -InformationLevel Quiet"
+```
+
+### Example 2: MySQL/MariaDB
+```bash
+# Check if MySQL is running
+mysqladmin -h localhost -P 3306 -u root ping
+
+# Or test connection
+mysql -h localhost -P 3306 -u your_user -p your_db -e "SELECT 1"
+```
+
+### Example 3: MongoDB
+```bash
+# Check if MongoDB is running
+mongo --host localhost --port 27017 --eval "db.adminCommand('ping')"
+
+# Or using mongosh (newer versions)
+mongosh --host localhost --port 27017 --eval "db.adminCommand('ping')"
+```
+
+### Example 4: Redis
+```bash
+# Check if Redis is running
+redis-cli ping
+
+# Or with host/port
+redis-cli -h localhost -p 6379 ping
+```
+
+### Example 5: SQLite
+```bash
+# Check if database file exists and is valid
+sqlite3 your_database.db "SELECT 1"
+```
+
+### Example 6: Docker Container Database
+```bash
+# Check if database container is running
+docker ps | grep database
+
+# Check health
+docker inspect --format='{{.State.Health.Status}}' database-container
+```
+
+## Environment Variables Check
+
+If your database connection uses environment variables:
+```bash
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_NAME: $DB_NAME"
+```

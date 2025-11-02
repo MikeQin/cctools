@@ -139,7 +139,7 @@ Proceeding...
 
 **What it does**:
 ```
-✅ POST-EDIT CHECK: backend/agents/chat_agent_v3.py
+✅ POST-EDIT CHECK: backend/agent-profiles/chat_agent_v3.py
 
 Checking Python syntax...
 ✅ Python syntax OK

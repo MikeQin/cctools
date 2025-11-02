@@ -330,7 +330,7 @@ This command MUST be run BEFORE modifying ANY existing code:
 
 1. Identify what functionality will be affected by your changes
 2. Run relevant tests to verify CURRENT behavior:
-   - Agent tests: pytest tests/agents/ -v -k "test_name"
+   - Agent tests: pytest tests/agent-profiles/ -v -k "test_name"
    - MCP tests: PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py
    - Integration tests: pytest tests/integration/ -v
 3. Document current test results (all should PASS before changes)
@@ -350,7 +350,7 @@ description: Run 5 critical smoke tests (pre-commit/deploy)
    PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py
 
 2. V3 Analyst Cache (Rule Engine):
-   PYTHONPATH=backend uv run python tests/agents/test_v3_analyst_cache.py
+   PYTHONPATH=backend uv run python tests/agent-profiles/test_v3_analyst_cache.py
 
 3. Model Fallback (3-tier):
    pytest tests/models/test_model_fallback.py -v
@@ -388,7 +388,7 @@ description: Run V3 agent tests (Analyst, Trader, Chat)
 Run agent tests:
 
 1. Ensure backend is running (curl http://localhost:8001/health)
-2. Run pytest tests/agents/ -v
+2. Run pytest tests/agent-profiles/ -v
 3. Display results for all 10 agent tests
 4. Show any failures with stack traces
 ```
@@ -532,7 +532,7 @@ if [ ! -f "$FILE_TO_EDIT" ]; then
 fi
 
 # 2. Check if modifying critical files (backend agents, frontend components)
-if [[ "$FILE_TO_EDIT" == backend/agents/* ]]; then
+if [[ "$FILE_TO_EDIT" == backend/agent-profiles/* ]]; then
   echo "⚠️ CRITICAL FILE: Backend agent"
   echo "Have you:"
   echo "  - Read .claude/LESSONS-LEARNED.md?"
@@ -645,7 +645,7 @@ PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py || {
 }
 
 echo "Testing V3 Analyst Cache..."
-pytest tests/agents/test_v3_analyst_cache.py -v || {
+pytest tests/agent-profiles/test_v3_analyst_cache.py -v || {
   echo "❌ V3 Analyst cache test FAILED"
   exit 1
 }
@@ -856,7 +856,7 @@ npm install -g @modelcontextprotocol/server-git
 
 ### Recommended Sub Agent Configurations
 
-Create `.claude/agents/` directory:
+Create `.claude/agent-profiles/` directory:
 
 #### **`refactor-agent.json`** - Safe refactoring specialist
 ```json

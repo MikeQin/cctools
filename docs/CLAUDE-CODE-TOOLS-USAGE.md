@@ -148,10 +148,10 @@ The session-start hook automatically:
 
 ```bash
 # Before editing critical files
-./.claude/hooks/pre-edit.sh backend/agents/chat_agent_v3.py
+./.claude/hooks/pre-edit.sh backend/agent-profiles/chat_agent_v3.py
 
 # After editing files (syntax check)
-./.claude/hooks/post-edit.sh backend/agents/chat_agent_v3.py
+./.claude/hooks/post-edit.sh backend/agent-profiles/chat_agent_v3.py
 
 # Before committing (run critical tests)
 ./.claude/hooks/pre-commit.sh

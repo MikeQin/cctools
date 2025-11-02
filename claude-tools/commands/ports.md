@@ -1,27 +1,43 @@
 ---
-description: Check what's using ports 8000, 8001, 3000
+description: Check port usage (CUSTOMIZE FOR YOUR PROJECT)
 ---
-**PORT STATUS CHECK** - See what's using project ports:
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Check port 8000 (MCP Server):
-   - netstat.exe -ano | grep ":8000 " | grep "LISTENING"
-   - Display PID and status
+This command checks which processes are using your project's ports.
 
-2. Check port 8001 (Backend API):
-   - netstat.exe -ano | grep ":8001 " | grep "LISTENING"
-   - Display PID and status
+**To customize**: Edit this file and specify YOUR project's ports.
 
-3. Check port 3000 (Frontend):
-   - netstat.exe -ano | grep ":3000 " | grep "LISTENING"
-   - Display PID and status
+## Quick Setup
 
-4. For each port, show:
-   - ✅ Port in use by expected process
-   - ⚠️ Port in use by unexpected process (orphaned)
-   - ❌ Port not in use
+Choose the example that matches your architecture:
 
-**Use when**:
-- "Port already in use" errors
-- Checking if components are actually running
-- Finding orphaned processes
-- Before starting components
+### Example 1: Multi-Component App (3 services)
+```bash
+# Check ports 8000, 8001, 3000
+netstat.exe -ano | grep ":8000 \|:8001 \|:3000 " | grep "LISTENING"
+```
+
+### Example 2: Simple Backend (1 service)
+```bash
+# Check port 8080
+netstat.exe -ano | grep ":8080 " | grep "LISTENING"
+```
+
+### Example 3: Microservices (5+ services)
+```bash
+# Check multiple ports
+netstat.exe -ano | grep ":8080 \|:8081 \|:8082 \|:5432 \|:6379 " | grep "LISTENING"
+```
+
+## Or Use a Template
+
+See `templates/` directory for ready-to-use examples:
+- `templates/multi-component-app/commands/ports.md`
+- `templates/simple-backend/commands/ports.md`
+- `templates/docker-compose/commands/ports.md`
+
+## Output Interpretation
+
+- ✅ Port in use by expected process
+- ⚠️ Port in use by unexpected process (orphaned)
+- ❌ Port not in use

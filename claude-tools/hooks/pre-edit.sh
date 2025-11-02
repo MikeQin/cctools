@@ -15,7 +15,7 @@ if [ ! -f "$FILE_TO_EDIT" ]; then
 fi
 
 # 2. Check if modifying critical files (backend agents, frontend components)
-if [[ "$FILE_TO_EDIT" == backend/agents/* ]]; then
+if [[ "$FILE_TO_EDIT" == backend/agent-profiles/* ]]; then
   echo "⚠️ CRITICAL FILE: Backend agent"
   echo "Have you:"
   echo "  - Read .claude/LESSONS-LEARNED.md?"

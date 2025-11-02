@@ -1,33 +1,71 @@
 ---
-description: Verify Ollama models are available
+description: Verify AI models available (IF APPLICABLE)
 ---
-**OLLAMA MODEL VERIFICATION** - Check AI models status:
+**AI MODEL CHECK** (Only if your project uses AI models):
 
-1. Check Ollama service is running:
-   - curl -s http://GMKtec-EVO-X2-AI-Mini-wired:11434/api/tags
-   - If fails, show error that Ollama is not accessible
+⚠️ **This command is for projects using Ollama, OpenAI, or other LLMs.**
 
-2. List all available models:
-   - Parse response and show model names
+If your project doesn't use AI models, you can delete this command.
 
-3. Verify required models are installed:
-   - ✅ gpt-oss:20b (PRIMARY_MODEL)
-   - ✅ qwen3:8b (FALLBACK_MODEL)
+## If You Use Ollama
 
-4. Show model details for required models:
-   - Size
-   - Last modified
-   - Format
+Check which models are available:
 
-5. Display summary:
-   - Total models available
-   - Required models present: YES/NO
-   - Model server accessible: YES/NO
+```bash
+# List all models
+ollama list
 
-**Use when**:
-- Backend fails with "model not found"
-- After installing new Ollama models
-- Verifying model availability
-- Debugging LLM agent errors
+# Check if specific model exists
+ollama list | grep "your-model-name"
 
-**Note**: Only gpt-oss:20b and qwen3:8b are verified to work with LangChain tool calling (out of 11 tested)
+# Test model
+ollama run your-model-name "test prompt"
+```
+
+## If You Use OpenAI API
+
+Check API access:
+
+```bash
+# Test API key
+curl https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+
+# Or use Python
+python -c "import openai; print(openai.Model.list())"
+```
+
+## If You Use HuggingFace
+
+Check model availability:
+
+```python
+from transformers import AutoModel
+model_name = "your-model-name"
+try:
+    model = AutoModel.from_pretrained(model_name)
+    print(f"✅ {model_name} is available")
+except:
+    print(f"❌ {model_name} not found")
+```
+
+## If You Use Cloud Services
+
+### AWS Bedrock
+```bash
+aws bedrock list-foundation-models
+```
+
+### Azure OpenAI
+```bash
+az cognitiveservices account list
+```
+
+### Google Vertex AI
+```bash
+gcloud ai models list
+```
+
+## Or Delete This Command
+
+If not applicable, delete this file and it won't appear in your slash commands.

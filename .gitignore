@@ -20,3 +20,7 @@ test-install/
 *.tmp
 *.bak
 *.backup
+
+# Don't commit .claude/ - this is a distribution repo
+# Tools get installed to target projects, not here
+.claude/

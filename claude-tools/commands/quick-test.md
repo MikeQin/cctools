@@ -1,22 +1,63 @@
 ---
-description: Run quick subset of tests for fast validation
+description: Fast validation (CUSTOMIZE FOR YOUR PROJECT)
 ---
-**QUICK TEST SUITE** (faster than /test-critical):
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-Run the 2 most important tests for rapid feedback:
+Quick validation (~30s) for fast feedback during development.
 
-1. MCP Integration (verifies 22 tools accessible):
-   PYTHONPATH=backend uv run python tests/mcp/test_mcp_integration.py
+**To customize**: Replace with YOUR project's fast tests.
 
-2. V3 Analyst Cache (verifies Rule Engine working):
-   pytest tests/agents/test_v3_analyst_cache.py -v
+## Quick Setup
 
-Display results with execution time.
+### Example 1: Minimal Fast Tests
+```bash
+echo "⚡ Running quick tests..."
 
-**Use when**:
-- Quick validation during development
-- After modifying MCP tools
-- After modifying agents
-- Before committing (faster than /test-critical)
+# Test 1: Syntax/Type check (10s)
+echo "1/2 Type checking..."
+# Python: mypy src/
+# TypeScript: tsc --noEmit
+# Go: go vet ./...
 
-**Execution time**: ~30-45 seconds (vs 2-3 minutes for /test-critical)
+# Test 2: Fast unit tests (20s)
+echo "2/2 Fast unit tests..."
+# Python: pytest tests/unit/ -k fast
+# Node: npm test -- --testPathPattern=unit
+# Go: go test -short ./...
+
+echo "✅ Quick tests passed!"
+```
+
+### Example 2: Pre-Commit Style
+```bash
+# Linting only (fast)
+npm run lint
+
+# Type checking
+tsc --noEmit
+
+# Format check
+prettier --check src/
+```
+
+### Example 3: Critical Path Only
+```bash
+# Test only the feature you're working on
+pytest tests/test_my_feature.py -v
+
+# Or specific test class
+pytest tests/test_api.py::TestAuthEndpoint
+```
+
+## When to Use
+
+- Before making a commit
+- After every code change (TDD workflow)
+- CI pipeline early stage
+- When you want fast feedback
+
+## Complementary Commands
+
+- `/test-critical` - More thorough (5 tests, ~3min)
+- `/test-all` - Complete test suite
+- `/test-before-change` - Test existing functionality

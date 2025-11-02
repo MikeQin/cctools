@@ -1,8 +1,8 @@
 # Claude Code Tools
 
-**A comprehensive automation toolkit for Claude Code** - 33 slash commands, 5 hooks (4 active), 4 sub agents, and intelligent quality gates with 70-75% token savings.
+**A comprehensive automation toolkit for Claude Code** - 34 slash commands, 5 hooks (4 active), 4 agent profiles, and intelligent quality gates with 70-75% token savings.
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/claude-code-tools/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/yourusername/claude-code-tools/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-8A2BE2.svg)](https://docs.claude.com/en/docs/claude-code)
 [![Platform](https://img.shields.io/badge/Platform-Windows_Git_Bash-blue.svg)](https://git-scm.com/download/win)
@@ -13,17 +13,23 @@
 
 ## 🎯 What Is This?
 
-**Claude Code Tools** is a production-ready toolkit that provides:
+**Claude Code Tools** is a **distribution repository** - think of it as a toolkit installer for Claude Code, not a working project.
 
-- **33 Slash Commands** - Essential development workflows (session start, type checking, debugging, testing, deployment, documentation)
+**How it works:**
+1. ✅ Clone this `cctools` repo (one-time)
+2. ✅ Run the installer: `./install-tools.sh`
+3. ✅ Point it to YOUR working project directory (e.g., `/c/dev/my-project`)
+4. ✅ Tools get installed to `your-project/.claude/`
+5. ✅ Use the tools in YOUR project with Claude Code (not in cctools)
+
+**What gets installed:**
+- **34 Slash Commands** - Essential development workflows (session start, type checking, debugging, testing, deployment, documentation)
 - **5 Hooks (4 active)** - Balanced automation with 70-75% token savings vs original
-- **4 Sub Agents** - Specialized agents for complex multi-file tasks (including simplified doc-agent)
+- **4 Agent Profiles** - Specialized agents for complex multi-file tasks (including simplified doc-agent)
 - **Quality Gates** - Prevent broken commits, type mismatches, and inefficient debugging
 - **Git Native Pre-Commit Hook** - Automatically enforces quality before EVERY commit
 
 **Balanced token-conscious design** - essential automation enabled with massive token savings!
-
----
 
 ## ⚡ Quick Start
 
@@ -117,10 +123,11 @@ The installer will:
 #### Documentation
 - `/document` - 📚 Intelligent documentation (auto-detects type & location)
 - `/check-doc-needed` - Analyze if documentation is needed
+- `/update-claude` - Update CLAUDE.md recent changes section
 
-**+ 11 more project-specific commands**
+**+ 10 more project-specific commands**
 
-### 3. Sub Agents (4 specialized agents)
+### 3. Agent Profiles (4 specialized agents)
 
 **Available on-demand (zero tokens until used):**
 
@@ -194,7 +201,7 @@ git commit -m "fix: My changes"
 
 **Automation does:**
 1. ✅ **PreToolUse:Glob hook** - Suggests using refactor-agent for safer multi-file changes
-2. ✅ Claude considers using specialized sub agent instead of manual edits
+2. ✅ Claude considers using specialized agent profile instead of manual edits
 
 **Safer refactoring automatically suggested!**
 
@@ -233,9 +240,9 @@ claude-code-tools/
 ├── README.md                     # This file
 ├── LICENSE                       # MIT License
 ├── claude-tools/
-│   ├── commands/                 # 31 slash commands
+│   ├── commands/                 # 34 slash commands
 │   ├── hooks/                    # 5 hook scripts (pre-commit, post-edit, etc.)
-│   ├── agents/                   # 3 sub agent configurations
+│   ├── agent-profiles/           # 4 agent profile configurations
 │   ├── ANTI-PATTERNS.md          # Condensed quick reference
 │   ├── LESSONS-LEARNED.md        # Full anti-patterns guide
 │   ├── CHEAT-SHEET.md            # One-page quick reference
@@ -434,8 +441,8 @@ Total: ~3,400 tokens + done in minutes
 
 ---
 
-**Last Updated**: November 1, 2025
-**Version**: 1.0.0
+**Last Updated**: November 2, 2025
+**Version**: 2.0.0
 **Compatibility**: Claude Code (tested on Windows Git Bash)
 
 ---
@@ -447,7 +454,7 @@ Total: ~3,400 tokens + done in minutes
 **The default status-line.sh is generic** and shows:
 ```
 [main] ✅ clean
-[main] 📝 3 changes  
+[main] 📝 3 changes
 ```
 
 **For your project**, customize it to show your components:
@@ -476,9 +483,90 @@ Total: ~3,400 tokens + done in minutes
 ### Other Customizations
 
 **Pre-Commit Hook** - Add project-specific tests
-**Security Check** - Add security-specific checks  
+**Security Check** - Add security-specific checks
 **Slash Commands** - Create new project-specific commands
-**Sub Agents** - Customize agent prompts for your project
+**Agent Profiles** - Customize agent prompts for your project
 
 📖 **Full guide**: [CUSTOMIZATION.md](CUSTOMIZATION.md)
 
+
+---
+
+## 🔄 Updating Tools
+
+### When Tools Already Installed
+
+If you run the installer on a project that already has `.claude/`, you'll get options:
+
+```bash
+./install-tools.sh
+
+⚠️  Claude Code Tools Already Installed
+
+What would you like to do?
+1) Update (preserve settings.local.json, overwrite everything else)
+2) Backup & Update (backup existing .claude/ first)
+3) Skip installation (cancel)
+```
+
+**Option 1** - Update: Best for version upgrades, keeps your hook customizations
+**Option 2** - Backup & Update: Creates safety backup before updating
+**Option 3** - Cancel: Exit without changes
+
+### Version Tracking
+
+Check your installed version:
+```bash
+cat .claude/VERSION
+# Output: 2.0.0
+```
+
+Check available version:
+```bash
+cd cctools
+cat VERSION
+# Output: 2.0.1
+```
+
+The installer automatically shows version comparison during updates.
+
+---
+
+## 🗑️  Uninstalling
+
+To remove Claude Code tools from your project:
+
+```bash
+cd cctools
+./uninstall-tools.sh
+
+# Options:
+# 1) Backup & Remove (recommended - creates .claude.backup/)
+# 2) Remove without backup (permanent)
+# 3) Cancel
+```
+
+The uninstaller:
+- Shows what will be removed
+- Creates timestamped backups (if requested)
+- Removes git pre-commit hook
+- Provides restore instructions
+
+### Restore After Uninstall
+
+If you backed up during uninstall:
+```bash
+mv .claude.backup.TIMESTAMP .claude
+```
+
+---
+
+## 📋 Complete Workflows
+
+For detailed workflows including:
+- Fresh installation
+- Re-installation with version tracking
+- Uninstallation with backups
+- Common scenarios and troubleshooting
+
+See [SUMMARY.md](SUMMARY.md) for comprehensive guide.

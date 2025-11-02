@@ -1,9 +1,52 @@
 ---
-description: Check health status of all components
+description: Check component health (CUSTOMIZE FOR YOUR PROJECT)
 ---
-Check health status:
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Run ./gitbash-status.sh for Python components
-2. Run curl http://localhost:3000/api/health for Frontend
-3. Check ports in use: netstat.exe -ano | grep "LISTENING" | grep "8000\|8001\|3000"
-4. Display summary of all component statuses with response times
+This command checks if your services are healthy and responding.
+
+**To customize**: Edit this file with YOUR health check URLs.
+
+## Quick Setup
+
+Choose the example that matches your architecture:
+
+### Example 1: Multi-Component with Health Endpoints
+```bash
+# Check multiple services
+curl http://localhost:8000/health    # MCP Server
+curl http://localhost:8001/health    # Backend API  
+curl http://localhost:3000/api/health # Frontend
+```
+
+### Example 2: Simple Backend
+```bash
+# Check single service
+curl http://localhost:8080/health
+```
+
+### Example 3: Docker Compose
+```bash
+# Check Docker containers
+docker ps --format "table {{.Names}}\t{{.Status}}"
+```
+
+### Example 4: No Health Endpoints
+```bash
+# Just check if ports are open
+netstat.exe -ano | grep "LISTENING" | grep ":8080"
+```
+
+## Or Use a Template
+
+See `templates/` directory for ready-to-use examples:
+- `templates/multi-component-app/commands/status.md`
+- `templates/simple-backend/commands/status.md`
+- `templates/docker-compose/commands/status.md`
+
+## Custom Script
+
+If you have a custom status script:
+```bash
+./your-status-check-script.sh
+```

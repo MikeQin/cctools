@@ -1,11 +1,51 @@
 ---
-description: Restart backend only (fastest iteration - MCP stays running)
+description: Restart backend service (CUSTOMIZE FOR YOUR PROJECT)
 ---
-Restart backend for fast iteration:
+**⚠️ TEMPLATE COMMAND - CUSTOMIZE FIRST**
 
-1. Run ./gitbash-clean-python-cache.sh all (prevent stale cache issues)
-2. Run ./gitbash-stop-backend.sh
-3. Run ./gitbash-start-backend.sh
-4. Wait for startup (~10-15s)
-5. Run curl http://localhost:8001/health to verify
-6. Display startup logs tail (last 20 lines)
+Quick backend restart (faster than full restart).
+
+**To customize**: Edit this file with YOUR backend restart commands.
+
+## Quick Setup
+
+### Example 1: Custom Script
+```bash
+./stop-backend.sh && ./start-backend.sh
+```
+
+### Example 2: Docker Container
+```bash
+docker-compose restart backend
+# Or: docker restart backend-container
+```
+
+### Example 3: Kill & Restart by Port
+```bash
+# Stop
+kill $(lsof -ti:8080)
+# Or Windows: taskkill //F //PID $(netstat -ano | grep ":8080" | awk '{print $NF}')
+
+# Start
+./start-backend.sh
+```
+
+### Example 4: Process Manager
+```bash
+# PM2
+pm2 restart backend
+
+# Systemctl
+sudo systemctl restart backend
+
+# Supervisorctl
+supervisorctl restart backend
+```
+
+## After Restart
+
+Verify backend is running:
+```bash
+/status
+curl http://localhost:YOUR_PORT/health
+```
