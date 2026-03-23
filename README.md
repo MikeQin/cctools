@@ -142,13 +142,13 @@ The installer will:
 
 ```bash
 # Before committing (also runs automatically via git hook)
-./.claude/hooks/pre-commit.sh
+./.claude/scripts/pre-commit.sh
 
 # Before deploying
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 
 # After editing (also runs automatically via PostToolUse hook)
-./.claude/hooks/post-edit.sh <file>
+./.claude/scripts/post-edit.sh <file>
 ```
 
 ---
@@ -266,8 +266,8 @@ claude-code-tools/
    - Customize hook prompts if needed
 
 2. **Customize hooks**
-   - Edit `.claude/hooks/pre-commit.sh` to add project-specific tests
-   - Edit `.claude/hooks/security-check.sh` for deployment-specific checks
+   - Edit `.claude/scripts/pre-commit.sh` to add project-specific tests
+   - Edit `.claude/scripts/security-check.sh` for deployment-specific checks
 
 3. **Review documentation**
    - `.claude/LESSONS-LEARNED.md` - Understand anti-patterns
@@ -315,7 +315,7 @@ git commit -m "feat: My feature"
 /test-critical
 
 # Security check
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 
 # Deploy
 git push

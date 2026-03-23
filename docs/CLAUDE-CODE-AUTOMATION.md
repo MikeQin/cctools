@@ -53,7 +53,7 @@ The tools can be configured with **intelligent hooks** that automatically trigge
 
 **What**: Session start protocol reminder
 **When**: Every time Claude Code launches
-**Triggers**: `.claude/hooks/session-start-auto.sh`
+**Triggers**: `.claude/scripts/session-start-auto.sh`
 
 **What you see**:
 ```
@@ -167,7 +167,7 @@ Checking for anti-patterns...
 
 **What**: Quality gate enforcement
 **When**: Before EVERY git commit (automatic)
-**How**: Git native hook at `.git/hooks/pre-commit` automatically runs `./.claude/hooks/pre-commit.sh`
+**How**: Git native hook at `.git/hooks/pre-commit` automatically runs `./.claude/scripts/pre-commit.sh`
 
 **What it does**:
 ```
@@ -218,10 +218,10 @@ STEP 4: Frontend Linting
 - **Before Grep** - Suggests type-validator-agent for type consistency checks
 
 ### Post-Edit Validation ⚡ AUTOMATIC
-- **After file edits** - Automatically runs `./.claude/hooks/post-edit.sh` (syntax/type validation)
+- **After file edits** - Automatically runs `./.claude/scripts/post-edit.sh` (syntax/type validation)
 
 ### Pre-Commit Validation ⚡ 100% AUTOMATIC (Git Native)
-- **Before commits** - Git native hook automatically runs `./.claude/hooks/pre-commit.sh` and BLOCKS commits if tests fail
+- **Before commits** - Git native hook automatically runs `./.claude/scripts/pre-commit.sh` and BLOCKS commits if tests fail
 
 ---
 
@@ -408,7 +408,7 @@ to ensure all references are updated safely."
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/session-start-auto.sh"
+            "command": "./.claude/scripts/session-start-auto.sh"
           }
         ]
       }
@@ -439,7 +439,7 @@ to ensure all references are updated safely."
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+            "command": "./.claude/scripts/post-edit.sh $ARGUMENTS"
           }
         ]
       }

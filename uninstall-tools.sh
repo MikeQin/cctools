@@ -53,7 +53,7 @@ echo ""
 # Check for git pre-commit hook
 GIT_HOOK="$TARGET_DIR/.git/hooks/pre-commit"
 if [ -f "$GIT_HOOK" ]; then
-    if grep -q "\.claude/hooks/pre-commit.sh" "$GIT_HOOK" 2>/dev/null; then
+    if grep -q "\.claude/scripts/pre-commit.sh" "$GIT_HOOK" 2>/dev/null; then
         echo "Also will remove:"
         echo "   • Git pre-commit hook (.git/hooks/pre-commit)"
         echo ""
@@ -106,7 +106,7 @@ if [ "$PROCEED" = true ]; then
     
     # Remove git hook if it exists and references our tools
     if [ -f "$GIT_HOOK" ]; then
-        if grep -q "\.claude/hooks/pre-commit.sh" "$GIT_HOOK" 2>/dev/null; then
+        if grep -q "\.claude/scripts/pre-commit.sh" "$GIT_HOOK" 2>/dev/null; then
             # Backup existing hook
             cp "$GIT_HOOK" "$GIT_HOOK.removed.$(date +%Y%m%d-%H%M%S)"
             rm "$GIT_HOOK"

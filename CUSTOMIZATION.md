@@ -124,7 +124,7 @@ echo "[$BRANCH] Containers:$STATUS"
 
 **To customize**:
 
-1. Edit `.claude/hooks/pre-commit.sh`
+1. Edit `.claude/scripts/pre-commit.sh`
 2. Add project-specific tests:
 
 ```bash
@@ -148,7 +148,7 @@ fi
 
 **Default**: Generic security checks
 
-**To customize** (`.claude/hooks/security-check.sh`):
+**To customize** (`.claude/scripts/security-check.sh`):
 
 ```bash
 # Add project-specific security checks

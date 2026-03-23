@@ -171,7 +171,7 @@ Phase 3: Documentation Review
    → V3 endpoints
    → OI integration
 
-2. ./.claude/hooks/pre-commit.sh
+2. ./.claude/scripts/pre-commit.sh
    → Runs tests again
    → Type safety validation
    → Hardcoded value detection
@@ -211,7 +211,7 @@ Total: 5/5 tests passed (24.8s)
 
 2. Implement component
 
-3. ./.claude/hooks/post-edit.sh frontend/src/components/NewComponent.tsx
+3. ./.claude/scripts/post-edit.sh frontend/src/components/NewComponent.tsx
    → TypeScript type check
    → Verifies no 'any' types
    → Checks for hardcoded localhost
@@ -408,7 +408,7 @@ Connection issues → /verify-environment → /db-status
 
 ### Before Commit
 ```
-/test-critical → ./.claude/hooks/pre-commit.sh → /commit-session
+/test-critical → ./.claude/scripts/pre-commit.sh → /commit-session
 ```
 
 ### Before Deploy

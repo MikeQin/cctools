@@ -102,7 +102,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 ```
 
 **What it does**:
-- ✅ Runs `./.claude/hooks/pre-commit.sh` automatically
+- ✅ Runs `./.claude/scripts/pre-commit.sh` automatically
 - ✅ Tests MCP integration, V3 cache, type safety, hardcoded values, linting
 - ✅ **BLOCKS commit** if any test fails
 - ✅ Works with `git commit` command AND Git GUI tools
@@ -118,7 +118,7 @@ Your terminal shows: `[branch] MCP:✅ API:✅ UI:✅`
 
 ```bash
 # Before deployment (reminder in Pre-Bash hook)
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 ```
 
 ---

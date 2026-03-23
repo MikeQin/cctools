@@ -28,7 +28,7 @@
 
 ### SessionStart Hook
 **Trigger**: When Claude Code launches
-**Type**: Command hook (`.claude/hooks/session-start-auto.sh`)
+**Type**: Command hook (`.claude/scripts/session-start-auto.sh`)
 **Content Read**:
 - `.claude/LESSONS-LEARNED.md`: 31 lines, 181 words, 1,208 characters
 - Estimated tokens: **~400 tokens** (181 words × 1.3 + overhead + command text)
@@ -72,7 +72,7 @@ Before editing: 1) Read type definitions? 2) Test existing functionality?
 
 ### PostToolUse:Edit Hook
 **Trigger**: After every Edit or Write tool use
-**Type**: Command hook (`.claude/hooks/post-edit.sh`)
+**Type**: Command hook (`.claude/scripts/post-edit.sh`)
 **Content**: Bash script (syntax/type validation)
 
 **Token Count**: **Minimal (~5 tokens overhead)**
@@ -104,7 +104,7 @@ Before editing: 1) Read type definitions? 2) Test existing functionality?
 
 ### Git Pre-Commit Hook
 **Trigger**: Before every git commit (native git hook)
-**Type**: Command (`.git/hooks/pre-commit` → `.claude/hooks/pre-commit.sh`)
+**Type**: Command (`.git/hooks/pre-commit` → `.claude/scripts/pre-commit.sh`)
 **Content**: Bash script (runs tests, linting, validation)
 
 **Token Count**: **0 tokens**

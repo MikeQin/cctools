@@ -99,7 +99,7 @@ fi
 # Create .claude directory structure
 echo "📁 Creating .claude directory structure..."
 mkdir -p "$TARGET_DIR/.claude/commands"
-mkdir -p "$TARGET_DIR/.claude/hooks"
+mkdir -p "$TARGET_DIR/.claude/scripts"
 mkdir -p "$TARGET_DIR/.claude/agents"
 
 # Copy commands
@@ -110,12 +110,12 @@ echo "   ✅ Installed $COMMANDS_COUNT commands"
 
 # Copy hooks
 echo "🪝 Copying hooks..."
-cp -r "$TOOLS_DIR/hooks/"* "$TARGET_DIR/.claude/hooks/"
-HOOKS_COUNT=$(ls -1 "$TARGET_DIR/.claude/hooks" | wc -l)
+cp -r "$TOOLS_DIR/scripts/"* "$TARGET_DIR/.claude/scripts/"
+HOOKS_COUNT=$(ls -1 "$TARGET_DIR/.claude/scripts" | wc -l)
 echo "   ✅ Installed $HOOKS_COUNT hooks"
 
 # Make hooks executable
-chmod +x "$TARGET_DIR/.claude/hooks/"*.sh
+chmod +x "$TARGET_DIR/.claude/scripts/"*.sh
 
 # Copy agents
 echo "🤖 Copying sub agents..."
@@ -161,29 +161,17 @@ if [ "$UPDATE_MODE" = "fresh" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/session-start-auto.sh"
+            "command": "./.claude/scripts/session-start-auto.sh"
           }
         ]
       }
     ],
-    "PreToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Before editing: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary? (See .claude/LESSONS-LEARNED.md)"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
       {
         "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+            "command": "./.claude/scripts/post-edit.sh $ARGUMENTS"
           }
         ]
       }
@@ -216,29 +204,17 @@ else
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/session-start-auto.sh"
+            "command": "./.claude/scripts/session-start-auto.sh"
           }
         ]
       }
     ],
-    "PreToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Before editing: 1) Read type definitions? 2) Test existing functionality? 3) Is this necessary? (See .claude/LESSONS-LEARNED.md)"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
       {
         "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+            "command": "./.claude/scripts/post-edit.sh $ARGUMENTS"
           }
         ]
       }
@@ -249,62 +225,6 @@ EOF
     echo "   ✅ Created settings.local.json"
 fi
 
-# Install git pre-commit hook if git repository exists
-if [ -d "$TARGET_DIR/.git" ]; then
-    echo ""
-    echo "🔒 Installing Git native pre-commit hook..."
-
-    GIT_HOOK="$TARGET_DIR/.git/hooks/pre-commit"
-    if [ -f "$GIT_HOOK" ]; then
-        echo "   ⚠️  Git pre-commit hook already exists"
-        echo "   Backing up to pre-commit.backup"
-        cp "$GIT_HOOK" "$GIT_HOOK.backup"
-    fi
-
-    cat > "$GIT_HOOK" << 'EOF'
-#!/usr/bin/env bash
-
-# Git Native Pre-Commit Hook
-# Automatically runs .claude/hooks/pre-commit.sh before EVERY commit
-# This hook will BLOCK the commit if pre-commit.sh fails
-
-echo "🔍 Git Pre-Commit Hook: Running quality checks..."
-echo ""
-
-# Get the root directory of the git repository
-REPO_ROOT=$(git rev-parse --show-toplevel)
-
-# Run the Claude Code pre-commit validation script
-if [ -f "$REPO_ROOT/.claude/hooks/pre-commit.sh" ]; then
-    # Execute the pre-commit script
-    bash "$REPO_ROOT/.claude/hooks/pre-commit.sh"
-    EXIT_CODE=$?
-
-    if [ $EXIT_CODE -ne 0 ]; then
-        echo ""
-        echo "❌ PRE-COMMIT CHECKS FAILED"
-        echo "Commit blocked. Fix the issues above and try again."
-        echo ""
-        echo "💡 Tip: Run './.claude/hooks/pre-commit.sh' manually to see details"
-        exit 1
-    fi
-
-    echo ""
-    echo "✅ All pre-commit checks passed!"
-    echo "Proceeding with commit..."
-    exit 0
-else
-    echo "⚠️  Warning: .claude/hooks/pre-commit.sh not found"
-    echo "Skipping pre-commit validation (commit will proceed)"
-    exit 0
-fi
-EOF
-
-    chmod +x "$GIT_HOOK"
-    echo "   ✅ Git pre-commit hook installed"
-else
-    echo ""
-    echo "ℹ️  No git repository found - skipping git pre-commit hook"
     echo "   (Run 'git init' first if you want the git hook)"
 fi
 
@@ -319,9 +239,6 @@ echo "   • $HOOKS_COUNT hook scripts"
 echo "   • $AGENTS_COUNT sub agents"
 echo "   • Auto hooks configured"
 echo "   • Status line enabled"
-if [ -d "$TARGET_DIR/.git" ]; then
-    echo "   • Git pre-commit hook installed"
-fi
 echo ""
 echo "📚 Next Steps:"
 echo ""

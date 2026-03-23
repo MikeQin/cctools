@@ -511,7 +511,7 @@ Display selected documentation sections inline.
 
 ### Recommended Hooks
 
-Create `.claude/hooks/` directory with the following hook files:
+Create `.claude/scripts/` directory with the following hook files:
 
 #### **`pre-edit.sh`** - Run BEFORE editing any file
 ```bash
@@ -782,10 +782,10 @@ Add to `.claude/settings.local.json`:
     ]
   },
   "hooks": {
-    "pre-edit": ".claude/hooks/pre-edit.sh",
-    "post-edit": ".claude/hooks/post-edit.sh",
-    "pre-commit": ".claude/hooks/pre-commit.sh",
-    "pre-deploy": ".claude/hooks/security-check.sh"
+    "pre-edit": ".claude/scripts/pre-edit.sh",
+    "post-edit": ".claude/scripts/post-edit.sh",
+    "pre-commit": ".claude/scripts/pre-commit.sh",
+    "pre-deploy": ".claude/scripts/security-check.sh"
   },
   "mcpServers": {
     // ... existing MCP servers ...
@@ -945,14 +945,14 @@ Create `.claude/agent-profiles/` directory:
 **Time**: 30 minutes
 **Impact**: Automated quality gates
 
-1. ✅ Created `.claude/hooks/` directory
+1. ✅ Created `.claude/scripts/` directory
 2. ✅ Implemented critical hooks:
    - `session-start-auto.sh` (ACTIVE - runs on startup)
    - `pre-edit.sh` (ACTIVE via PreToolUse hook)
    - `post-edit.sh` (ACTIVE - syntax check after editing)
    - `pre-commit.sh` (ACTIVE via git native hook)
    - `security-check.sh` (manual - run before deploy)
-3. ✅ Made executable: `chmod +x .claude/hooks/*.sh`
+3. ✅ Made executable: `chmod +x .claude/scripts/*.sh`
 4. ✅ Configured in `.claude/settings.local.json` (4 active hooks)
 5. ✅ Tested and working
 

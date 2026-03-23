@@ -46,12 +46,7 @@
 **Active Automation (Essential Hooks Enabled):**
 
 - ✅ **Session Start Hook** - Runs when Claude Code launches (reads concise LESSONS-LEARNED.md ~400 tokens)
-- ✅ **Pre-Edit Hook** - Reminds before editing files (~100 tokens per edit)
 - ✅ **Post-Edit Validation** - Runs after file edits (syntax/type checking via bash script)
-- 🔒 **Git Native Pre-Commit Hook** - Quality checks before commits (native git hook, no Claude tokens)
-  - Installed at `.git/hooks/pre-commit`
-  - **BLOCKS commits** if tests fail
-  - Works with `git commit` command AND Git GUI tools
 
 **Disabled Hooks (Lower Priority):**
 
@@ -82,7 +77,6 @@ Available for complex multi-file tasks (zero tokens until you invoke them):
 - ✅ **4 Specialized Sub Agents** (on-demand, zero tokens until used)
 - ✅ **4 Active Hooks** (session-start ~400 tokens, pre-edit ~100 tokens, post-edit validation, status line)
 - ✅ **2 Disabled Hooks** (pre-bash, pre-grep/glob - can enable if needed)
-- ✅ **Git Native Pre-Commit Hook** (native git, no Claude tokens)
 
 **Documentation:**
 - ✅ Concise LESSONS-LEARNED.md (31 lines, ~400 tokens - down from 2,500!)

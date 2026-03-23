@@ -49,7 +49,7 @@ npm run build
 ### 4. Security Checks
 ```bash
 # Run security scan
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 
 # No hardcoded secrets
 git grep -i "password\|secret\|api.key" src/

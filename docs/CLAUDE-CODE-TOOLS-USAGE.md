@@ -148,16 +148,16 @@ The session-start hook automatically:
 
 ```bash
 # Before editing critical files
-./.claude/hooks/pre-edit.sh backend/agent-profiles/chat_agent_v3.py
+./.claude/scripts/pre-edit.sh backend/agent-profiles/chat_agent_v3.py
 
 # After editing files (syntax check)
-./.claude/hooks/post-edit.sh backend/agent-profiles/chat_agent_v3.py
+./.claude/scripts/post-edit.sh backend/agent-profiles/chat_agent_v3.py
 
 # Before committing (run critical tests)
-./.claude/hooks/pre-commit.sh
+./.claude/scripts/pre-commit.sh
 
 # Before deploying (security validation)
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 ```
 
 ### Hook Details
@@ -170,7 +170,7 @@ The session-start hook automatically:
 
 **Usage**:
 ```bash
-./.claude/hooks/pre-edit.sh <file_path>
+./.claude/scripts/pre-edit.sh <file_path>
 ```
 
 #### `post-edit.sh` - Post-Edit Validation
@@ -180,7 +180,7 @@ The session-start hook automatically:
 
 **Usage**:
 ```bash
-./.claude/hooks/post-edit.sh <file_path>
+./.claude/scripts/post-edit.sh <file_path>
 ```
 
 #### `pre-commit.sh` - Pre-Commit Quality Gate
@@ -192,7 +192,7 @@ The session-start hook automatically:
 
 **Usage**:
 ```bash
-./.claude/hooks/pre-commit.sh
+./.claude/scripts/pre-commit.sh
 ```
 
 **Exit codes**:
@@ -207,7 +207,7 @@ The session-start hook automatically:
 
 **Usage**:
 ```bash
-./.claude/hooks/security-check.sh
+./.claude/scripts/security-check.sh
 ```
 
 ---
@@ -243,14 +243,14 @@ The session-start hook automatically:
 5. **Before Commit**:
    ```
    /test-critical
-   ./.claude/hooks/pre-commit.sh
+   ./.claude/scripts/pre-commit.sh
    /commit-session
    ```
 
 6. **Before Deploy**:
    ```
    /build-frontend
-   ./.claude/hooks/security-check.sh
+   ./.claude/scripts/security-check.sh
    ```
 
 ---
@@ -273,7 +273,7 @@ The session-start hook automatically:
 - ✅ **CHECK** environment variables first → run `/verify-environment`
 
 ### Before Commits
-- ✅ **ALWAYS** run `./.claude/hooks/pre-commit.sh` (critical tests + type safety)
+- ✅ **ALWAYS** run `./.claude/scripts/pre-commit.sh` (critical tests + type safety)
 - ✅ **NEVER** skip hooks (no --no-verify)
 - ✅ **VERIFY** all critical tests pass
 
@@ -408,7 +408,7 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/session-start-auto.sh"
+            "command": "./.claude/scripts/session-start-auto.sh"
           }
         ]
       }
@@ -430,7 +430,7 @@ Ask Claude Code to use the Task tool with subagent_type="test-gen-agent"
         "hooks": [
           {
             "type": "command",
-            "command": "./.claude/hooks/post-edit.sh $ARGUMENTS"
+            "command": "./.claude/scripts/post-edit.sh $ARGUMENTS"
           }
         ]
       }

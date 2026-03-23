@@ -63,7 +63,7 @@
 | **Before editing existing code** | Test it works first → Read types → Verify necessity |
 | **Before implementing API endpoint** | Read Pydantic model → Read TypeScript interface → Verify match |
 | **After 3rd backend restart** | STOP → Use `/debug-checklist` → Systematic diagnosis |
-| **Before committing** | Run `./.claude/hooks/pre-commit.sh` (5 critical tests) |
+| **Before committing** | Run `./.claude/scripts/pre-commit.sh` (5 critical tests) |
 | **Starting session** | Use `/session-start` (read full `.claude/LESSONS-LEARNED.md`) |
 
 ---
